@@ -11,7 +11,7 @@ export const Purpose = () => {
   return (
   <>
     <FormControl>
-      <StyledInputLabel id="purpose">用務地</StyledInputLabel>
+      <StyledInputLabel id="purpose">用務内容</StyledInputLabel>
       <Select
         label="purpose"
         id="purpose"
