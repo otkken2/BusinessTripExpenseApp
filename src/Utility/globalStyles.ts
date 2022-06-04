@@ -16,13 +16,13 @@ export const StyledForm = styled("form")({
   display:"flex",
   flexDirection:"column",
   justifyContent:"center",
-  width: "300px",
+  width: "400px",
   margin: "auto",
   paddingBottom: "30px"
 })
 
 export const StyledInputLabel = styled('label')({
-  marginTop: "15px",
-  marginBottom: "15px",
+  marginTop: "30px",
+  marginBottom: "5px",
   marginRight: "50px",
 })

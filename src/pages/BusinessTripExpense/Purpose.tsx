@@ -1,5 +1,5 @@
-import { FormControl, MenuItem, Select, SelectChangeEvent, styled }from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { FormControl, MenuItem, Select, SelectChangeEvent }from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {StyledInputLabel} from "../../Utility/globalStyles"
 
@@ -13,12 +13,12 @@ export const Purpose = () => {
     <FormControl>
       <StyledInputLabel id="purpose">用務内容</StyledInputLabel>
       <Select
-        label="purpose"
-        id="purpose"
-        labelId="purpose"
+        // label="purpose"
+        // id="purpose"
+        // labelId="purpose"
         value={purpose}
         onChange={handleOnChangePurpose}
-        placeholder="用務地を選択"
+        // placeholder="用務地を選択"
       >
         {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
         <MenuItem value="書類提出">書類提出</MenuItem>
