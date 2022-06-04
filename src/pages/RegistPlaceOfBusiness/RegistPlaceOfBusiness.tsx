@@ -1,7 +1,5 @@
-import { Button, TextField } from "@mui/material"
 import { Input } from "../../components/input"
 import { StyledButton,StyledPaper, StyledForm} from "../../Utility/globalStyles";
-import { InputProps } from "../../Utility/interfaces";
 
 export const RegistPlaceOfBusiness = () => {
 

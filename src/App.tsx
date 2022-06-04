@@ -1,9 +1,8 @@
-import React, { useEffect,useState } from 'react';
-import axios ,{AxiosResponse} from "axios";
-import { Resources } from "./components/Resources";
+// import React, { useEffect,useState } from 'react';
+// import axios ,{AxiosResponse} from "axios";
+// import { Resources } from "./components/Resources";
 import { Home } from './pages/Home';
 import {Login} from './pages/Login';
-import { Box, Button, createStyles, createTheme, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Trip } from './pages/Trip';
 import { Header } from './components/header';
@@ -18,26 +17,17 @@ const StyledWrapper = styled('div')({
   margin:"15px",
 })
 
-interface MeansOfTransport{
-  id: number | undefined
-  name: string | undefined
-}
-
-const initMeansOfTransport: MeansOfTransport = {
-  id: 0,
-  name: "",
-}
-const baseURL = "http://0.0.0.0:8000/api/meansOfTransport"
+// const baseURL = "http://0.0.0.0:8000/api/meansOfTransport"
 // const baseURL = "https://jsonplaceholder.typicode.com/posts"
 
 function App() {
-  const [meansOfTransports, setMeansOfTransports] = useState<any>([]);
+  // const [meansOfTransports, setMeansOfTransports] = useState<any>([]);
   
-  const handleOnClickButton = async () => {
-    const response = await axios.get(baseURL);
-    setMeansOfTransports(response.data.meansOfTransports);
-    console.log(meansOfTransports)
-  }
+  // const handleOnClickButton = async () => {
+  //   const response = await axios.get(baseURL);
+  //   setMeansOfTransports(response.data.meansOfTransports);
+  //   console.log(meansOfTransports)
+  // }
 
   return (     
     <BrowserRouter>
@@ -52,7 +42,6 @@ function App() {
           <Route path='/registPurpose' element={<RegistPurpose/>} />
           <Route path='/businessTripExpense' element={<BusinessTripExpense/>} />
           <Route path='/responsiveDrawer' element={<ResponsiveDrawer/>} />
-
         </Routes>
       </StyledWrapper>
     </BrowserRouter> 

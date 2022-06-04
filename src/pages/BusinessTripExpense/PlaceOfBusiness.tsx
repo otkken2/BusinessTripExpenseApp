@@ -1,5 +1,5 @@
-import { FormControl, MenuItem, Select, SelectChangeEvent, styled }from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { FormControl, MenuItem, Select, SelectChangeEvent }from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {StyledInputLabel} from "../../Utility/globalStyles"
 
@@ -13,9 +13,6 @@ export const PlaceOfBusiness = () => {
     <FormControl>
       <StyledInputLabel id="place-of-business">用務地</StyledInputLabel>
       <Select
-        label="place-of-business"
-        id="place-of-business"
-        labelId="place-of-business"
         value={placeOfBusiness}
         onChange={handleOnChangePlaceOfBusiness}
         placeholder="用務地を選択"
