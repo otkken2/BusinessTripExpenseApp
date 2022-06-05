@@ -5,9 +5,11 @@ import { pageTitles } from "../../Utility/Enums";
 import { StyledForm, StyledPaper } from "../../Utility/globalStyles";
 import { CheckBoxGroup } from "./CheckBoxGroup";
 import { ServiceSections } from "./ServiceSections";
-
-
-
+import { DistanceDrivenByPrivateCar } from "./DistanceDrivenByPrivateCar";
+import { MiscellaneousExpense } from "./MiscellaneousExpense";
+import { HotelChargeRadio } from "./HotelChargeRadio";
+import { BurdenAmount } from "./BurdenAmount";
+import { TotalExpense } from "./TotalExpense";
 
 export const BusinessTripExpense = () => {
   return (
@@ -20,6 +22,11 @@ export const BusinessTripExpense = () => {
           <Purpose/>
           <CheckBoxGroup/>
           <ServiceSections/>
+          <DistanceDrivenByPrivateCar/>
+          <MiscellaneousExpense/>
+          <HotelChargeRadio/>
+          <BurdenAmount/>
+          <TotalExpense/>
         </StyledForm>
       </StyledPaper>
 
