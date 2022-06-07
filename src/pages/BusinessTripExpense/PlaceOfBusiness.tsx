@@ -23,7 +23,7 @@ export const PlaceOfBusiness = () => {
         <MenuItem value="座間高校">座間高校</MenuItem>
         <MenuItem value="西中学校">西中学校</MenuItem>
       </Select>
-      <Link to="/registPlaceOfBusiness">新しい用務地を登録する</Link>
+      <Link to="/registPlaceOfBusiness" style={{textDecoration:"none"}}>新しい用務地を登録する</Link>
     </FormControl>
   </>)
 }

@@ -25,7 +25,7 @@ export const Purpose = () => {
         <MenuItem value="打ち合わせ">打ち合わせ</MenuItem>
         <MenuItem value="視察">視察</MenuItem>
       </Select>
-      <Link to="/registPurpose">新しい用務内容を登録する</Link>
+      <Link to="/registPurpose" style={{textDecoration:"none"}}>新しい用務内容を登録する</Link>
     </FormControl>
   </>)
 }

@@ -32,7 +32,7 @@ export const MiscellaneousExpense = () => {
             value={numberOfTripDays}
             onChange={handleOnChangeNumberOfTripDaysValue}
             endAdornment={
-              <InputAdornment position="end">km</InputAdornment>
+              <InputAdornment position="end">日</InputAdornment>
             }
           />
           <StyledP>{`✖️ ${unitPrice}円`}</StyledP>
