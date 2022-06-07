@@ -37,11 +37,12 @@ function App() {
           <Route path='/' element={<Home/>} />
           <Route path='/signUp' element={<SignUp/>} />
           <Route path='/login' element={<Login/>} />
-          <Route path='/trip' element={<Trip/>} />
+          {/* <Route path='/trip' element={<Trip/>} /> */}
           <Route path='/registPlaceOfBusiness' element={<RegistPlaceOfBusiness/>} />
           <Route path='/registPurpose' element={<RegistPurpose/>} />
           <Route path='/businessTripExpense' element={<BusinessTripExpense/>} />
           <Route path='/responsiveDrawer' element={<ResponsiveDrawer/>} />
+
         </Routes>
       </StyledWrapper>
     </BrowserRouter> 
