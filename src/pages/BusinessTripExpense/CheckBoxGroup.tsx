@@ -1,17 +1,14 @@
 import { Checkbox, FormControlLabel, FormGroup, Radio, RadioGroup } from "@mui/material"
+import { useAtom } from "jotai";
 import { ChangeEvent, useState } from "react";
-
-const enum AllTheWayType{
-  ON_FOOT_ALL = "onFootAll",
-  USE_OF_PUBLIC_CAR_ALL = "useOfPublicCarAll",
-  USE_OF_PRIVATE_CAR_ALL = "usePrivateCarAll",
-}
+import { allTheWayTypeAtom, isCheckedGoDirectlyAtom, isCheckedReturnDirectlyAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
+import { AllTheWayType } from "../../Utility/Enums";
 
 export const CheckBoxGroup = () => {
-  const [isCheckedGoDirectly,        setIsCheckedGoDirectly]         = useState<boolean>(false);
-  const [isCheckedReturnDirectly,    setIsCheckedReturnDirectly]     = useState<boolean>(false);
+  const [isCheckedGoDirectly,        setIsCheckedGoDirectly]         = useAtom(isCheckedGoDirectlyAtom);
+  const [isCheckedReturnDirectly,    setIsCheckedReturnDirectly]     = useAtom(isCheckedReturnDirectlyAtom);
 
-  const [allTheWayType,setAllTheWayType] = useState<AllTheWayType | null>(null);
+  const [allTheWayType,setAllTheWayType] = useAtom(allTheWayTypeAtom);
   const handleOnChangeAllTheWayType = (event: ChangeEvent<HTMLInputElement>) => {
     setAllTheWayType((event.target as HTMLInputElement).value as unknown as AllTheWayType);
   }

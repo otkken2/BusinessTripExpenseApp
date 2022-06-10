@@ -2,9 +2,11 @@ import { FormControl, MenuItem, Select, SelectChangeEvent }from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {StyledInputLabel} from "../../Utility/globalStyles"
+import {useAtom} from "jotai";
+import { purposeAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 
 export const Purpose = () => {
-  const [purpose,setPurpose] = useState<string>("")
+  const [purpose,setPurpose] = useAtom(purposeAtom);
   const handleOnChangePurpose = (event: SelectChangeEvent<string>) => {
     setPurpose(event.target.value);
   }

@@ -1,5 +1,7 @@
 import {MenuItem, Select, SelectChangeEvent, styled, Paper, OutlinedInput, InputAdornment}from "@mui/material";
+import { useAtom } from "jotai";
 import { useState } from "react";
+import { meansOrTransportAtom,startPointAtom,endPointAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { StyledInputLabel } from "../../Utility/globalStyles";
 
 const Container = styled('div')({
@@ -25,17 +27,17 @@ interface ServiceSectionProps{
 
 
 export const ServiceSection = (props:ServiceSectionProps) => {
-  const [meansOfTransport, setMeansOfTransport] = useState("");
+  const [meansOfTransport, setMeansOfTransport] = useAtom(meansOrTransportAtom);
   const handleOnChangeServiceSection = (event: SelectChangeEvent<string>) => {
     setMeansOfTransport(event.target.value);
   }
 
-  const [startPoint, setStartPoint] = useState<string>("");
+  const [startPoint, setStartPoint] = useAtom(startPointAtom);
   const handelOnChangeStartPoint = (event:SelectChangeEvent<unknown>) => {
     setStartPoint(event.target.value as unknown as string);
   }
 
-  const [endPoint, setEndPoint] = useState<string>("");
+  const [endPoint, setEndPoint] = useAtom(endPointAtom);
   const handelOnChangeEndPoint = (event:SelectChangeEvent<unknown>) => {
     setEndPoint(event.target.value as string);
   }
