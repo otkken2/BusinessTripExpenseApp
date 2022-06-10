@@ -1,13 +1,11 @@
-// import OutlinedInput from "@mui/material/OutlinedInput"
 import { FormControlLabel, Radio, RadioGroup, styled, TextField, TextFieldProps} from "@mui/material";
-// import { InputAdornment } from "@material-ui/core";
-// import DateRangeIcon from '@mui/icons-material/DateRange';
-// import {format, add} from 'date-fns';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import {FlexContainer,StyledInputLabel} from "../../Utility/globalStyles";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-
+import { dayOrOvernightAtom, firstDayAtom, lastDayAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
+import {useAtom} from "jotai";
+import { DayOrOvernight } from "../../Utility/Enums";
 
 
 const StyledRadioGroup = styled(RadioGroup)({
@@ -21,24 +19,21 @@ const StyledDatePicker = styled(DatePicker)({
   backgroundColor: 'red',
 })
 
-const enum DayOrOvernight{
-  DAY = "day",
-  OVERNIGHT = "overnight"
-}
+
 
 export const DateOfTrip = () => {
-  const [firstDay,setFirstDay] = useState<Date | null>(null);
-  const [lastDay, setLastDay]  = useState<Date | null>(null);
+  const [firstDay,setFirstDay] = useAtom(firstDayAtom);
+  const [lastDay, setLastDay]  = useAtom(lastDayAtom);
 
-  const [dayOrOvernight, setDayOrOvernight] = useState(DayOrOvernight.DAY);
+  const [dayOrOvernight, setDayOrOvernight] = useAtom(dayOrOvernightAtom);
   const isOvernight = () => {
     return dayOrOvernight === DayOrOvernight.OVERNIGHT;
   }
 
-  const handleOnChangeFirstDay:(newFirstDay: Date | null) => void = (newFirstDay: Date | null) => {
+  const handleOnChangeFirstDay = (newFirstDay: Date | null) => {
     setFirstDay(newFirstDay)
   }
-  const handleOnChangeLastDay :(newLastDay: Date | null) => void  = (newLastDay: Date | null) => {
+  const handleOnChangeLastDay = (newLastDay: Date | null) => {
     setLastDay(newLastDay)
   }
 

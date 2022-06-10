@@ -9,7 +9,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { Drawer, List, ListItemButton, ListItemText } from '@mui/material';
-import { listenerCount } from 'process';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 
@@ -19,20 +18,14 @@ const StyledIconButton = styled(IconButton)(()=>({
   margin: "10px"
 }));
 
-const StyledMenu = styled('p')({
-  width: "300px",
-})
-
-const StyledToolBar = styled(Toolbar)({
-  display: "flex",
-  justifyContent: "space-around",
-
-})
-
 const menuList = [
   {
     menuText:"出張経費を申請する",
     link:"/businessTripExpense",
+  },
+  {
+    menuText:"職員情報を登録する",
+    link:"/registUserInfo",
   },
   {
     menuText:"用務地を追加する",

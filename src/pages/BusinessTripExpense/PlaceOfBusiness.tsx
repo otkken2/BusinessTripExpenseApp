@@ -1,10 +1,12 @@
 import { FormControl, MenuItem, Select, SelectChangeEvent }from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {StyledInputLabel} from "../../Utility/globalStyles"
+import {StyledInputLabel} from "../../Utility/globalStyles";
+import {useAtom} from "jotai";
+import { placeOfBusinessAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 
 export const PlaceOfBusiness = () => {
-  const [placeOfBusiness,setPlaceOfBusiness] = useState<string>("")
+  const [placeOfBusiness,setPlaceOfBusiness] = useAtom(placeOfBusinessAtom)
   const handleOnChangePlaceOfBusiness = (event: SelectChangeEvent<string>) => {
     setPlaceOfBusiness(event.target.value);
   }

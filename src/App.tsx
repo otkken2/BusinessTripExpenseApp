@@ -12,6 +12,7 @@ import { BusinessTripExpense } from './pages/BusinessTripExpense/BusinessTripExp
 import { RegistPlaceOfBusiness } from './pages/RegistPlaceOfBusiness/RegistPlaceOfBusiness';
 import { RegistPurpose } from './pages/RegistPurpose/RegistPurpose';
 import ResponsiveDrawer from './components/ResponsiveDrawer';
+import { RegistUserInfo } from './pages/RegistUserInfo/RegistUserInfo';
 
 const StyledWrapper = styled('div')({
   margin:"15px",
@@ -42,7 +43,7 @@ function App() {
           <Route path='/registPurpose' element={<RegistPurpose/>} />
           <Route path='/businessTripExpense' element={<BusinessTripExpense/>} />
           <Route path='/responsiveDrawer' element={<ResponsiveDrawer/>} />
-
+          <Route path='/registUserInfo' element={<RegistUserInfo/>} />
         </Routes>
       </StyledWrapper>
     </BrowserRouter> 

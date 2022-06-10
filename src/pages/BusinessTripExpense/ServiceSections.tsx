@@ -1,9 +1,11 @@
 import { Button } from "@mui/material";
+import { useAtom } from "jotai";
 import { useState } from "react";
+import { serviceSectionCountAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { ServiceSection } from "./ServiceSection";
 
 export const ServiceSections = () => {
-  const [serviceSectionCount, setServiceSectionCount] = useState<number>(1);
+  const [serviceSectionCount, setServiceSectionCount] = useAtom(serviceSectionCountAtom);
   const handleOnClickCreatNewServiceSection = () => {
   setServiceSectionCount((prevServiceSectionCount)=>{
     return prevServiceSectionCount + 1;

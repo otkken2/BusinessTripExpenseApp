@@ -1,5 +1,7 @@
 import {MenuItem, Select, SelectChangeEvent, styled, Paper, OutlinedInput, InputAdornment}from "@mui/material";
+import { useAtom } from "jotai";
 import { useState } from "react";
+import { meansOrTransportAtom,startPointAtom,endPointAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { StyledInputLabel } from "../../Utility/globalStyles";
 
 const Container = styled('div')({
@@ -25,9 +27,19 @@ interface ServiceSectionProps{
 
 
 export const ServiceSection = (props:ServiceSectionProps) => {
-  const [meansOfTransport, setMeansOfTransport] = useState("");
+  const [meansOfTransport, setMeansOfTransport] = useAtom(meansOrTransportAtom);
   const handleOnChangeServiceSection = (event: SelectChangeEvent<string>) => {
     setMeansOfTransport(event.target.value);
+  }
+
+  const [startPoint, setStartPoint] = useAtom(startPointAtom);
+  const handelOnChangeStartPoint = (event:SelectChangeEvent<unknown>) => {
+    setStartPoint(event.target.value as unknown as string);
+  }
+
+  const [endPoint, setEndPoint] = useAtom(endPointAtom);
+  const handelOnChangeEndPoint = (event:SelectChangeEvent<unknown>) => {
+    setEndPoint(event.target.value as string);
   }
   
   return (
@@ -48,7 +60,10 @@ export const ServiceSection = (props:ServiceSectionProps) => {
 
           <StyledInputLabel>利用区間</StyledInputLabel>
           <ServiceSectionContainer>
-            <SelectServiceSection value="登戸駅">
+            <SelectServiceSection 
+              value={startPoint} 
+              onChange={handelOnChangeStartPoint}
+            >
               {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
               <MenuItem value="座間駅">座間駅</MenuItem>
               <MenuItem value="入谷駅">入谷駅</MenuItem>
@@ -57,7 +72,10 @@ export const ServiceSection = (props:ServiceSectionProps) => {
               <MenuItem value="登戸駅">登戸駅</MenuItem>
             </SelectServiceSection>
             <p> 〜 </p>
-            <SelectServiceSection value="座間駅">
+            <SelectServiceSection 
+              value={endPoint}
+              onChange={handelOnChangeEndPoint}  
+            >
               {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
               <MenuItem value="座間駅">座間駅</MenuItem>
               <MenuItem value="入谷駅">入谷駅</MenuItem>
