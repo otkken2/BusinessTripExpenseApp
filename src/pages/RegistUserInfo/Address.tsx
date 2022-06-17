@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect } from "react";
 import { useAtom } from "jotai";
 import { usePostalJp } from 'use-postal-jp';
-import { municipalitiesAtom, postalCodeAtom, prefectureAtom, userNameAtom,chomeAndTownAndStreetAddressAtom,buildingNameAndRoomNumberAtom } from "../../Utility/Atoms/RegistUserInfoAtoms";
+import { municipalitiesAtom, postalCodeAtom, prefectureAtom,chomeAndTownAndStreetAddressAtom,buildingNameAndRoomNumberAtom } from "../../Utility/Atoms/RegistUserInfoAtoms";
 import { MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, styled } from "@mui/material";
 import { StyledButton, StyledInputLabel } from "../../Utility/globalStyles";
 
@@ -22,7 +22,7 @@ export const Address = () => {
     setPostalCode(event.target.value);
   }
 
-  let [address, loading, error] = usePostalJp(postalCode,postalCode.length >= 7);
+  let [address, loading] = usePostalJp(postalCode,postalCode.length >= 7);
     
   
   // 都道府県

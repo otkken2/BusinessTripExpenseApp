@@ -1,12 +1,12 @@
 import { Input, InputAdornment } from "@mui/material"
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { FlexContainer, StyledInputLabel } from "../../Utility/globalStyles"
 
 export const TotalExpense = () => {
-  const [totalExpense,setTotalExpense] = useState<number>(0);
-  const handleOnChangeTotalExpense = (event: ChangeEvent<HTMLInputElement>) => {
-    setTotalExpense(event.target.value as unknown as number);
-  }
+  const [totalExpense] = useState<number>(0);
+  // const handleOnChangeTotalExpense = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setTotalExpense(event.target.value as unknown as number);
+  // }
   return (
     <>
       <FlexContainer>
@@ -15,7 +15,6 @@ export const TotalExpense = () => {
           disabled
           type="text"
           value={totalExpense}
-          onChange={handleOnChangeTotalExpense}
           endAdornment={
             <InputAdornment position="end">円</InputAdornment>
           }

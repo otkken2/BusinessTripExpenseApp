@@ -21,6 +21,6 @@ export const allTheWayTypeAtom = atom<AllTheWayType | null>(null);
 export const serviceSectionCountAtom = atom<number>(1);
 
 // ServiceSection.tsx
-export const meansOrTransportAtom = atom<string>("");
+export const meansOfTransportAtom = atom<string>("");
 export const startPointAtom = atom<string>("");
 export const endPointAtom = atom<string>("");

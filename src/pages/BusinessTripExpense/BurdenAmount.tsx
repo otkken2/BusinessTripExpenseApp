@@ -5,7 +5,7 @@ import { StyledInputLabel } from "../../Utility/globalStyles"
 export const BurdenAmount = () => {
   const [burdenAmount, setBurdenAmount] = useState<number>(0);
   const handleOnChangeBurdenAmountValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setBurdenAmount(event.target.value as unknown as number)
+    setBurdenAmount(event.target.value as unknown as number);
   }
   return (
     <>
