@@ -1,26 +1,34 @@
 import { Button } from "@mui/material";
 import { useAtom } from "jotai";
-import { useState } from "react";
-import { serviceSectionCountAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
+import { Control, FieldArrayWithId, useFieldArray, UseFieldArrayAppend, useForm, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {serviceSectionCountAtom} from "../../Utility/Atoms/BusinessTripExpenseAtoms";
+import { Inputs } from "./BusinessTripExpense";
+
 import { ServiceSection } from "./ServiceSection";
 
-export const ServiceSections = () => {
-  const [serviceSectionCount, setServiceSectionCount] = useAtom(serviceSectionCountAtom);
-  const handleOnClickCreatNewServiceSection = () => {
-  setServiceSectionCount((prevServiceSectionCount)=>{
-    return prevServiceSectionCount + 1;
-  })
+interface ServiceSectionsProps{
+  register:UseFormRegister<Inputs>
+  control:Control<Inputs,any>
+  setValue:UseFormSetValue<Inputs>
+  fields: FieldArrayWithId<Inputs, "serviceSections", "id">[]
+  append: UseFieldArrayAppend<Inputs, "serviceSections">
 }
-  const serviceSectionsArray: JSX.Element[] = [];
-  for (let i = 1; i <= serviceSectionCount; i++){
-    serviceSectionsArray.push(<ServiceSection key={i} number={i}/>);
+
+export const ServiceSections = (props: ServiceSectionsProps) => {
+
+  // const [serviceSectionCount, setServiceSectionCount] = useAtom(serviceSectionCountAtom);
+
+  const handleOnAppendServiceSection = () => {
+    console.log("hoge")
+    props.append({meansOfTransport: "",startPoint:"",endPoint:"",serviceSectionExpense:0})
   }
+
   return (
     <>
-      {serviceSectionsArray.map((serviceSection)=> {
-        return serviceSection;
-      })}
-      <Button onClick={handleOnClickCreatNewServiceSection}>➕利用区間を追加する</Button>
+      {props.fields.map((field,index)=> (
+          <ServiceSection {...props.register("serviceSections")} key={index} number={index} register={props.register} control={props.control} setValue={props.setValue}/>
+      ))}
+      <Button onClick={handleOnAppendServiceSection}>➕利用区間を追加する</Button>
     </>
   )
 }

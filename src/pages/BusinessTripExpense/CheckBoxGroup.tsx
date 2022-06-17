@@ -1,10 +1,17 @@
 import { Checkbox, FormControlLabel, FormGroup, Radio, RadioGroup } from "@mui/material"
 import { useAtom } from "jotai";
 import { ChangeEvent, useState } from "react";
+import { Control, Controller, useForm, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { allTheWayTypeAtom, isCheckedGoDirectlyAtom, isCheckedReturnDirectlyAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { AllTheWayType } from "../../Utility/Enums";
+import { Inputs } from "./BusinessTripExpense";
 
-export const CheckBoxGroup = () => {
+interface CheckBoxGroupProps{
+  register:UseFormRegister<Inputs>
+  control:Control<Inputs,any>
+  setValue:UseFormSetValue<Inputs>
+}
+export const CheckBoxGroup = (props:CheckBoxGroupProps) => {
   const [isCheckedGoDirectly,        setIsCheckedGoDirectly]         = useAtom(isCheckedGoDirectlyAtom);
   const [isCheckedReturnDirectly,    setIsCheckedReturnDirectly]     = useAtom(isCheckedReturnDirectlyAtom);
 
@@ -22,14 +29,43 @@ export const CheckBoxGroup = () => {
 
   return (
     <>
-      <FormGroup>
-        <FormControlLabel control={<Checkbox checked={isCheckedGoDirectly}         onChange={handleOnChangeGoDirectlyCheckBox}/>}         label="直行"/>
-        <FormControlLabel control={<Checkbox checked={isCheckedReturnDirectly}     onChange={handleOnChangeReturnDirectlyCheckBox}/>}     label="直帰"/>
-      </FormGroup>
+      <Controller
+        control={props.control}
+        name="isCheckedGoDirectly"
+        render={()=>(
+          <FormControlLabel 
+            control={
+              <Checkbox 
+                checked={isCheckedGoDirectly} 
+                {...props.register("isCheckedGoDirectly")} 
+                onChange={handleOnChangeGoDirectlyCheckBox}
+              />
+            } 
+            label="直行"
+          />
+        )}
+      />
+      <Controller
+        control={props.control}
+        name="isCheckedReturnDirectly"
+        render={()=>(
+          <FormControlLabel 
+            control={
+              <Checkbox 
+                checked={isCheckedReturnDirectly}   
+                {...props.register("isCheckedReturnDirectly")}  
+                onChange={handleOnChangeReturnDirectlyCheckBox}
+              />
+            }     
+            label="直帰"
+          />
+          
+        )}
+      />
       <RadioGroup onChange={handleOnChangeAllTheWayType} value={allTheWayType}>
-        <FormControlLabel value={AllTheWayType.ON_FOOT_ALL} control={<Radio />} label="全行程徒歩"/>
-        <FormControlLabel value={AllTheWayType.USE_OF_PUBLIC_CAR_ALL} control={<Radio />} label="全行程公用車利用"/>
-        <FormControlLabel value={AllTheWayType.USE_OF_PRIVATE_CAR_ALL} control={<Radio />} label="全行程自家用車利用"/>
+        <FormControlLabel value={AllTheWayType.ON_FOOT_ALL} control={<Radio {...props.register("allTheWayType")}/>} label="全行程徒歩"/>
+        <FormControlLabel value={AllTheWayType.USE_OF_PUBLIC_CAR_ALL} control={<Radio {...props.register("allTheWayType")} />} label="全行程公用車利用"/>
+        <FormControlLabel value={AllTheWayType.USE_OF_PRIVATE_CAR_ALL} control={<Radio {...props.register("allTheWayType")}/>} label="全行程自家用車利用"/>
       </RadioGroup>
     </>
   )
