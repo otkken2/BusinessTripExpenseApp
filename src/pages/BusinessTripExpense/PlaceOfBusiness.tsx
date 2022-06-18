@@ -30,6 +30,7 @@ export const PlaceOfBusiness = (props: PlaceOfBusinessProps) => {
           (
             <Select
               {...field}
+              defaultValue=""
               placeholder="用務地を選択"
               onChange={(newValue)=>{
                 props.setValue("placeOfBusiness",newValue.target.value as unknown as string);

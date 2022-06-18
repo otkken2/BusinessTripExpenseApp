@@ -23,7 +23,10 @@ export const Purpose = (props:PurposeProps) => {
         name="purpose"
         render={({field})=>(
           <>
-            <Select {...field}>
+            <Select 
+              {...field}
+              defaultValue=""
+            >
               {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
               <MenuItem value="書類提出">書類提出</MenuItem>
               <MenuItem value="打ち合わせ">打ち合わせ</MenuItem>
