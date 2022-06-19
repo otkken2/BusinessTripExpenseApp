@@ -123,7 +123,7 @@ export const ServiceSection = (props:ServiceSectionProps) => {
             control={props.control}
             {...props.register(`serviceSections.${props.number}.isRouteDuplicated`)}
             render={({field})=>(
-              <RadioGroup {...field}>
+              <RadioGroup {...field} defaultValue={false}>
                 <FormControlLabel value={false} control={<Radio />} label="無"/>
                 <FormControlLabel value={true} control={<Radio />} label="有"/>
               </RadioGroup>

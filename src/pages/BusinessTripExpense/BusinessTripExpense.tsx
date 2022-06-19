@@ -7,7 +7,7 @@ import { CheckBoxGroup } from "./CheckBoxGroup";
 import { ServiceSections } from "./ServiceSections";
 import { DistanceDrivenByPrivateCar } from "./DistanceDrivenByPrivateCar";
 import { MiscellaneousExpense } from "./MiscellaneousExpense";
-import { HotelChargeRadio } from "./HotelChargeRadio";
+import { HotelCharge, HotelChargeRadio } from "./HotelChargeRadio";
 import { BurdenAmount } from "./BurdenAmount";
 import { TotalExpense } from "./TotalExpense";
 import { useAtom } from "jotai";
@@ -44,6 +44,13 @@ export interface Inputs {
   serviceSections: ServiceSection[];
   isRouteDuplicated: boolean;
   serviceSectionExpense: number;
+  drivenByPrivateCar: boolean;
+  distanceValue: number;
+  numberOfTripDays: number;
+  hotelChargeType: HotelCharge;
+  actualHotelChargeValue: number | string;
+  burdenAmount: number;
+  totalExpense: number;
 }
 
 export const BusinessTripExpense = () => {
@@ -89,23 +96,6 @@ export const BusinessTripExpense = () => {
   // const [startPoint] = useAtom(startPointAtom);
   // const [endPoint] = useAtom(endPointAtom);
   // const [serviceSections] = useAtom(serviceSectionsAtom)
-
-  // const handleOnClickSubmit = () => {
-  //   alert("登録ボタン押下！")
-  //   console.log(firstDay);
-  //   console.log(lastDay);
-  //   console.log(dayOrOvernight);
-  //   console.log(placeOfBusiness);
-  //   console.log(purpose);
-  //   console.log(`isCheckedGoDirectly:${isCheckedGoDirectly}`);
-  //   console.log(`isCheckedReturnDirectly:${isCheckedReturnDirectly}`);
-  //   console.log(allTheWayType);
-  //   console.log(`seviceSectionCount:${serviceSectionCount}`);
-
-  //   console.log("serviceSectionMenus↓");
-  //   console.log(serviceSections);
-
-  // }
   
   return (
     <>
@@ -117,11 +107,11 @@ export const BusinessTripExpense = () => {
           <Purpose register={register} control={control} setValue={setValue}/>
           <CheckBoxGroup register={register} control={control} setValue={setValue}/>
           <ServiceSections register={register} control={control} setValue={setValue} fields={fields} append={append}/>
-          <DistanceDrivenByPrivateCar/>
-          <MiscellaneousExpense/>
-          <HotelChargeRadio/>
-          <BurdenAmount/>
-          <TotalExpense/>
+          <DistanceDrivenByPrivateCar register={register} control={control} setValue={setValue}/>
+          <MiscellaneousExpense register={register} control={control} setValue={setValue}/>
+          <HotelChargeRadio register={register} control={control} setValue={setValue}/>
+          <BurdenAmount register={register} control={control}/>
+          <TotalExpense register={register} control={control}/>
           <StyledButton type="submit"  color="primary" variant="contained">この内容で登録する</StyledButton>
         </StyledForm>
       </StyledPaper>

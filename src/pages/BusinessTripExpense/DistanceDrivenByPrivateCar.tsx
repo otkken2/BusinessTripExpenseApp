@@ -1,5 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, InputAdornment, OutlinedInput, styled } from "@mui/material"
 import { ChangeEvent, useState } from "react";
+import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { Inputs } from "./BusinessTripExpense";
 
 const FlexContainer = styled('div')({
   display: "flex",
@@ -22,7 +24,13 @@ const StyledP = styled('p')({
   margin: 0,
 })
 
-export const DistanceDrivenByPrivateCar = () => {
+interface DistanceDrivenByPrivateCarProps{
+  register:UseFormRegister<Inputs>
+  control:Control<Inputs,any>
+  setValue:UseFormSetValue<Inputs>
+}
+
+export const DistanceDrivenByPrivateCar = (props: DistanceDrivenByPrivateCarProps) => {
   const [drivenByPrivateCar,setDrivenByPrivateCar] = useState<boolean>(false);
   const handleOnChangeCheckBox = () => {
     drivenByPrivateCar === false && setDistanceValue(0);
@@ -38,17 +46,34 @@ export const DistanceDrivenByPrivateCar = () => {
   return (
     <>
       <FormGroup>
-        <FormControlLabel control={<Checkbox checked={drivenByPrivateCar} onChange={handleOnChangeCheckBox}/>} label="自家用車運転"/>
+        <Controller
+          control={props.control}
+          name="drivenByPrivateCar"
+          render={()=>(
+            <>
+              <FormControlLabel control={<Checkbox {...props.register("drivenByPrivateCar")}checked={drivenByPrivateCar} onChange={handleOnChangeCheckBox}/>} label="自家用車運転"/>
+            </>
+         )}
+        />
         <StyledInputLabel>運転距離</StyledInputLabel>
         <FlexContainer>
-          <StyledOutlinedInput
-            disabled={!drivenByPrivateCar}
-            type="text"
-            value={distanceValue}
-            onChange={handleOnChangeDistanceValue}
-            endAdornment={
-              <InputAdornment position="end">km</InputAdornment>
-            }
+          <Controller
+            control={props.control}
+            name="distanceValue"
+            render={()=>(
+              <>
+                <StyledOutlinedInput
+                  {...props.register("distanceValue")}
+                  disabled={!drivenByPrivateCar}
+                  type="text"
+                  value={distanceValue}
+                  onChange={handleOnChangeDistanceValue}
+                  endAdornment={
+                    <InputAdornment position="end">km</InputAdornment>
+                  }
+                />
+              </>
+            )}
           />
           <StyledP>{`✖️ ${unitPrice}円`}</StyledP>
         </FlexContainer>
