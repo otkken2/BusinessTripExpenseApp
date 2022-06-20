@@ -1,6 +1,8 @@
 import { Checkbox, FormControlLabel, FormGroup, InputAdornment, OutlinedInput, styled } from "@mui/material"
+import { useAtom } from "jotai";
 import { ChangeEvent, useState } from "react";
-import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { drivenByPrivateCarAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { Inputs } from "./BusinessTripExpense";
 
 const FlexContainer = styled('div')({
@@ -28,21 +30,17 @@ interface DistanceDrivenByPrivateCarProps{
   register:UseFormRegister<Inputs>
   control:Control<Inputs,any>
   setValue:UseFormSetValue<Inputs>
+  watch:UseFormWatch<Inputs>
 }
+const unitPrice = 15;
 
 export const DistanceDrivenByPrivateCar = (props: DistanceDrivenByPrivateCarProps) => {
-  const [drivenByPrivateCar,setDrivenByPrivateCar] = useState<boolean>(false);
+  const [drivenByPrivateCar,setDrivenByPrivateCar] = useAtom(drivenByPrivateCarAtom);
   const handleOnChangeCheckBox = () => {
-    drivenByPrivateCar === false && setDistanceValue(0);
+    // drivenByPrivateCar === false && setDistanceValue(0);
     setDrivenByPrivateCar(!drivenByPrivateCar);
   };
-  const unitPrice = 15;
 
-  const [distanceValue, setDistanceValue] = useState<number>(0);
-  const handleOnChangeDistanceValue = (event: ChangeEvent<HTMLInputElement>) => {
-    const target = event.target as unknown as HTMLInputElement;
-    setDistanceValue(target.value as unknown as number);
-  }
   return (
     <>
       <FormGroup>
@@ -66,8 +64,9 @@ export const DistanceDrivenByPrivateCar = (props: DistanceDrivenByPrivateCarProp
                   {...props.register("distanceValue")}
                   disabled={!drivenByPrivateCar}
                   type="text"
-                  value={distanceValue}
-                  onChange={handleOnChangeDistanceValue}
+                  onChange={(newValue)=>{
+                    props.setValue("distanceValue",newValue.target.value as unknown as number)
+                  }}
                   endAdornment={
                     <InputAdornment position="end">km</InputAdornment>
                   }

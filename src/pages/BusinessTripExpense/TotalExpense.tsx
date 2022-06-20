@@ -1,23 +1,23 @@
 import { Input, InputAdornment } from "@mui/material"
-import { useState } from "react";
-import { Control, Controller, UseFormRegister } from "react-hook-form";
+import { useAtom } from "jotai";
+import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { FlexContainer, StyledInputLabel } from "../../Utility/globalStyles"
 import { Inputs } from "./BusinessTripExpense";
+import { totalExpenseAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms"
 
 interface TotalExpenseProps{
   register:UseFormRegister<Inputs>
   control:Control<Inputs,any>
+  setValue: UseFormSetValue<Inputs>
+  watch: UseFormWatch<Inputs>
 }
 
 export const TotalExpense = (props: TotalExpenseProps) => {
-  const [totalExpense] = useState<number>(0);
-  // const handleOnChangeTotalExpense = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setTotalExpense(event.target.value as unknown as number);
-  // }
+  const [totalExpense] = useAtom(totalExpenseAtom); 
   return (
     <>
       <FlexContainer>
-        <StyledInputLabel>請求額</StyledInputLabel>
+        <StyledInputLabel>合計請求額</StyledInputLabel>
         <Controller
           control={props.control}
           name="totalExpense"

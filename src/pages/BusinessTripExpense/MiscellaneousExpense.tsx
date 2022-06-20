@@ -1,5 +1,4 @@
 import { FormGroup, InputAdornment, OutlinedInput, styled } from "@mui/material";
-import { ChangeEvent, useState } from "react";
 import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { FlexContainer, StyledInputLabel } from "../../Utility/globalStyles";
 import { Inputs } from "./BusinessTripExpense";
@@ -23,11 +22,6 @@ interface MiscellaneousExpenseProps{
 
 export const MiscellaneousExpense = (props: MiscellaneousExpenseProps) => {
 
-  const [numberOfTripDays, setNumberOfTripDays] = useState<number>(0);
-  const handleOnChangeNumberOfTripDaysValue = (event: ChangeEvent<HTMLInputElement>) => {
-    const target = event.target as unknown as HTMLInputElement;
-    setNumberOfTripDays(target.value as unknown as number);
-  }
   const unitPrice = 120;
 
   return (
@@ -42,8 +36,10 @@ export const MiscellaneousExpense = (props: MiscellaneousExpenseProps) => {
               <StyledOutlinedInput
                 {...props.register("numberOfTripDays")}
                 type="text"
-                value={numberOfTripDays}
-                onChange={handleOnChangeNumberOfTripDaysValue}
+                defaultValue="1"
+                onChange={(newValue)=>{
+                  props.setValue("numberOfTripDays",newValue.target.value as unknown as number)
+                }}
                 endAdornment={
                   <InputAdornment position="end">日</InputAdornment>
                 }

@@ -20,14 +20,16 @@ import {
   lastDayAtom,
   placeOfBusinessAtom,
   purposeAtom, 
-  serviceSectionCountAtom,
+  // serviceSectionCountAtom,
   meansOfTransportAtom,
   startPointAtom,
   endPointAtom,
+  totalExpenseAtom,
   // serviceSectionsAtom
 } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { ServiceSection } from "./ServiceSection";
+import { useEffect } from "react";
 
 export interface Inputs {
   dayOrOvernight: DayOrOvernight;
@@ -48,17 +50,22 @@ export interface Inputs {
   distanceValue: number;
   numberOfTripDays: number;
   hotelChargeType: HotelCharge;
-  actualHotelChargeValue: number | string;
+  actualHotelChargeValue: number;
   burdenAmount: number;
   totalExpense: number;
 }
 
 export const BusinessTripExpense = () => {
-  const { register, handleSubmit,control,setValue} = useForm<Inputs>({
+  const { register, handleSubmit,control,setValue,watch} = useForm<Inputs>({
     defaultValues: {
+      firstDay: new Date(),
+      distanceValue: 0,
       serviceSections: [
-        {meansOfTransport: "", startPoint:"", endPoint: ""},
-      ]
+        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0},
+      ],
+      actualHotelChargeValue: 0,
+      burdenAmount: 0,
+      totalExpense: 0,
     }
   });
   const {fields, append} = useFieldArray({
@@ -67,10 +74,56 @@ export const BusinessTripExpense = () => {
   })
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    alert("HOge!!!!!")
+    alert("登録されました！")
     console.log("onSubmit!",data);
-    // reset();
   }
+
+  const returnServiceSectionExpenseTotal = ()=>{
+    let total: number = 0;
+    const watchServiceSections = watch('serviceSections');
+    watchServiceSections.map((serviceSection)=>{
+      total += Number(serviceSection.serviceSectionExpense);
+    })
+    console.log(`利用区間全ての経費の合計は${total}円`);
+    return total;
+  }
+  // returnServiceSectionExpenseTotal(); 　即時反映OK
+
+  const returnDrivenByPrivateCarExpense = () => {
+    const unitPrice = 15;
+    const watchDistance = watch("distanceValue");
+    console.log(`自家用車運転経費は${watchDistance*unitPrice}円`)
+    return watchDistance*unitPrice;;
+  }
+  returnDrivenByPrivateCarExpense();　//即時反映OK
+
+  const returnMiscellaneousExpense = () => {
+    const unitPrice = 120;
+    const watchNumberOfTripDays = watch("numberOfTripDays");
+    console.log(`旅行雑費は${watchNumberOfTripDays*unitPrice}円`)
+    return watchNumberOfTripDays*unitPrice;
+  }
+  // returnMiscellaneousExpense();　即時反映OK
+
+  const returnHotelCharge = () => {
+    if(watch("hotelChargeType") == HotelCharge.KOU){
+      console.log(`ホテルの宿泊料金は${HotelCharge.KOU}円`)
+      return HotelCharge.KOU;
+    }
+    if(watch("hotelChargeType") == HotelCharge.OTSU){
+      console.log(`ホテルの宿泊料金は${HotelCharge.OTSU}円`)
+      return HotelCharge.OTSU;
+    }
+    if(watch("hotelChargeType") === HotelCharge.ACTUAL_HOTEL_CHARGE){
+      console.log(`ホテルの宿泊料金は${watch("actualHotelChargeValue")}円`)
+      return Number(watch("actualHotelChargeValue"));
+    }
+    return 0;
+  };
+  // returnHotelCharge();　//即時反映OK
+  
+  const burdenAmount = watch("burdenAmount"); 
+  // console.log(`別途負担額は${burdenAmount}円`);  //即時反映OK  
 
   // // DateOrTrip
   // const [firstDay] = useAtom(firstDayAtom);
@@ -96,6 +149,16 @@ export const BusinessTripExpense = () => {
   // const [startPoint] = useAtom(startPointAtom);
   // const [endPoint] = useAtom(endPointAtom);
   // const [serviceSections] = useAtom(serviceSectionsAtom)
+
+  const [_,setTotalExpense] = useAtom(totalExpenseAtom);
+  useEffect(()=>{
+    let serviceSectionExpenseTotal = returnServiceSectionExpenseTotal();
+    let distanceValue = returnDrivenByPrivateCarExpense();
+    let miscellaneousExpense = returnMiscellaneousExpense();
+    let hotelCharge = returnHotelCharge();
+    console.log("useEffect done!")
+    setTotalExpense(serviceSectionExpenseTotal + distanceValue + miscellaneousExpense + hotelCharge - burdenAmount)
+  },[watch(["serviceSections","distanceValue","numberOfTripDays","hotelChargeType","burdenAmount"])])
   
   return (
     <>
@@ -107,11 +170,11 @@ export const BusinessTripExpense = () => {
           <Purpose register={register} control={control} setValue={setValue}/>
           <CheckBoxGroup register={register} control={control} setValue={setValue}/>
           <ServiceSections register={register} control={control} setValue={setValue} fields={fields} append={append}/>
-          <DistanceDrivenByPrivateCar register={register} control={control} setValue={setValue}/>
+          <DistanceDrivenByPrivateCar register={register} control={control} setValue={setValue} watch={watch}/>
           <MiscellaneousExpense register={register} control={control} setValue={setValue}/>
-          <HotelChargeRadio register={register} control={control} setValue={setValue}/>
-          <BurdenAmount register={register} control={control}/>
-          <TotalExpense register={register} control={control}/>
+          <HotelChargeRadio register={register} control={control} setValue={setValue} watch={watch}/>
+          <BurdenAmount register={register} control={control} setValue={setValue}/>
+          <TotalExpense register={register} control={control} setValue={setValue} watch={watch}/>
           <StyledButton type="submit"  color="primary" variant="contained">この内容で登録する</StyledButton>
         </StyledForm>
       </StyledPaper>

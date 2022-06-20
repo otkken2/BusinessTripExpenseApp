@@ -1,5 +1,4 @@
 import { InputAdornment, OutlinedInput } from "@mui/material"
-import { ChangeEvent, useState } from "react"
 import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form"
 import { StyledInputLabel } from "../../Utility/globalStyles"
 import { Inputs } from "./BusinessTripExpense"
@@ -7,13 +6,10 @@ import { Inputs } from "./BusinessTripExpense"
 interface BurdenAmountProps{
   register:UseFormRegister<Inputs>
   control:Control<Inputs,any>
+  setValue: UseFormSetValue<Inputs>
 }
 
 export const BurdenAmount = (props:BurdenAmountProps) => {
-  const [burdenAmount, setBurdenAmount] = useState<number>(0);
-  const handleOnChangeBurdenAmountValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setBurdenAmount(event.target.value as unknown as number);
-  }
   return (
     <>
       <StyledInputLabel>別途負担額</StyledInputLabel>
@@ -24,8 +20,9 @@ export const BurdenAmount = (props:BurdenAmountProps) => {
           <OutlinedInput
             {...props.register("burdenAmount")}
             type="text"
-            value={burdenAmount}
-            onChange={handleOnChangeBurdenAmountValue}
+            onChange={(newValue)=>{
+              props.setValue("burdenAmount",newValue.target.value as unknown as number)
+            }}
             endAdornment={
               <InputAdornment position="end">円</InputAdornment>
             }

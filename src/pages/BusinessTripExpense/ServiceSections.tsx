@@ -1,7 +1,5 @@
 import { Button } from "@mui/material";
-import { useAtom } from "jotai";
-import { Control, FieldArrayWithId, useFieldArray, UseFieldArrayAppend, useForm, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import {serviceSectionCountAtom} from "../../Utility/Atoms/BusinessTripExpenseAtoms";
+import { Control, FieldArrayWithId, UseFieldArrayAppend, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { Inputs } from "./BusinessTripExpense";
 
 import { ServiceSection } from "./ServiceSection";
@@ -15,9 +13,6 @@ interface ServiceSectionsProps{
 }
 
 export const ServiceSections = (props: ServiceSectionsProps) => {
-
-  // const [serviceSectionCount, setServiceSectionCount] = useAtom(serviceSectionCountAtom);
-
   const handleOnAppendServiceSection = () => {
     console.log("hoge")
     props.append({meansOfTransport: "",startPoint:"",endPoint:"",serviceSectionExpense:0})
