@@ -25,10 +25,11 @@ import {
   startPointAtom,
   endPointAtom,
   totalExpenseAtom,
+  serviceSectionsAtom,
   // serviceSectionsAtom
 } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { ServiceSection } from "./ServiceSection";
+import { RoundTripOrOneWay, ServiceSection } from "./ServiceSection";
 import { useEffect } from "react";
 
 export interface Inputs {
@@ -61,7 +62,7 @@ export const BusinessTripExpense = () => {
       firstDay: new Date(),
       distanceValue: 0,
       serviceSections: [
-        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0},
+        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0,roundTripOrOneWay: RoundTripOrOneWay.ONE_WAY},
       ],
       actualHotelChargeValue: 0,
       burdenAmount: 0,
@@ -82,7 +83,7 @@ export const BusinessTripExpense = () => {
     let total: number = 0;
     const watchServiceSections = watch('serviceSections');
     watchServiceSections.map((serviceSection)=>{
-      total += Number(serviceSection.serviceSectionExpense);
+      total += Number(serviceSection.serviceSectionExpense*(serviceSection.roundTripOrOneWay as number));
     })
     console.log(`利用区間全ての経費の合計は${total}円`);
     return total;
@@ -157,7 +158,7 @@ export const BusinessTripExpense = () => {
     let miscellaneousExpense = returnMiscellaneousExpense();
     let hotelCharge = returnHotelCharge();
     console.log("useEffect done!")
-    setTotalExpense(serviceSectionExpenseTotal + distanceValue + miscellaneousExpense + hotelCharge - burdenAmount)
+    setValue("totalExpense",serviceSectionExpenseTotal + distanceValue + miscellaneousExpense + hotelCharge - burdenAmount)
   },[watch(["serviceSections","distanceValue","numberOfTripDays","hotelChargeType","burdenAmount"])])
   
   return (

@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { ServiceSection } from "../../pages/BusinessTripExpense/ServiceSection";
 import { DayOrOvernight, AllTheWayType } from "../Enums";
+import { Point } from "../interfaces";
 
 // DateOfTrip.tsx
 export const firstDayAtom = atom<Date | null>(null);
@@ -26,6 +27,7 @@ export const serviceSectionsAtom = atom<ServiceSection[]>([])
 export const meansOfTransportAtom = atom<string>("");
 export const startPointAtom = atom<string>("");
 export const endPointAtom = atom<string>("");
+export const PointsAtom = atom<Point[]>([]);
 
 // TotalExpense.tsx
 export const totalExpenseAtom = atom<number>(0);

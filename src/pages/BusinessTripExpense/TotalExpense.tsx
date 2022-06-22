@@ -1,9 +1,7 @@
 import { Input, InputAdornment } from "@mui/material"
-import { useAtom } from "jotai";
 import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { FlexContainer, StyledInputLabel } from "../../Utility/globalStyles"
 import { Inputs } from "./BusinessTripExpense";
-import { totalExpenseAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms"
 
 interface TotalExpenseProps{
   register:UseFormRegister<Inputs>
@@ -13,7 +11,6 @@ interface TotalExpenseProps{
 }
 
 export const TotalExpense = (props: TotalExpenseProps) => {
-  const [totalExpense] = useAtom(totalExpenseAtom); 
   return (
     <>
       <FlexContainer>
@@ -26,7 +23,6 @@ export const TotalExpense = (props: TotalExpenseProps) => {
               {...props.register("totalExpense")}
               disabled
               type="text"
-              value={totalExpense}
               endAdornment={
                 <InputAdornment position="end">円</InputAdornment>
               }

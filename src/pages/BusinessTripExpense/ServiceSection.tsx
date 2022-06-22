@@ -6,6 +6,11 @@ import { StyledInputLabel } from "../../Utility/globalStyles";
 // import { serviceSectionInterFace } from "../../Utility/interfaces";
 import { UseFormRegister, Controller, Control, UseFormSetValue } from 'react-hook-form';
 import { Inputs } from "./BusinessTripExpense";
+import { useEffect } from "react";
+import axios from "axios";
+import { useAtom } from "jotai";
+import { PointsAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
+import { Point } from "../../Utility/interfaces";
 
 const Container = styled('div')({
   display: "flex",
@@ -20,6 +25,11 @@ const ServiceSectionContainer = styled('div')({
   width: "100%",
 })
 
+const StyledRadioGroup = styled(RadioGroup)({
+  display:"flex",
+  flexDirection: "row",
+})
+
 const SelectServiceSection = styled(Select)({
   flexGrow: 1,
 })
@@ -29,11 +39,17 @@ export interface ServiceSection{
   startPoint: string;
   endPoint: string;
   isRouteDuplicated: boolean;
+  roundTripOrOneWay: RoundTripOrOneWay;
   serviceSectionExpense: number;
 }
 
 export interface ServiceSectionForm{
   serviceSections: ServiceSection[]
+}
+
+export const enum RoundTripOrOneWay{
+  ONE_WAY = 1,
+  ROUND_TRIP = 2,
 }
 
 interface ServiceSectionProps{
@@ -42,6 +58,8 @@ interface ServiceSectionProps{
   control:Control<Inputs,any>;
   setValue:UseFormSetValue<Inputs>
 }
+
+const baseURL = "http://0.0.0.0:8000/api/businessTripExpense/points"
 
 export const ServiceSection = (props:ServiceSectionProps) => {
 
@@ -59,6 +77,17 @@ export const ServiceSection = (props:ServiceSectionProps) => {
   // const handelOnChangeEndPoint = (event:SelectChangeEvent<unknown>) => {
   //   setEndPoint(event.target.value as string);
   // }
+
+  const [points,setPoints] = useAtom(PointsAtom)
+  const getPoints = async () => {
+    const response = await axios.get(baseURL);
+    const points:Point[] = JSON.parse(JSON.stringify(response.data.points));
+    setPoints(points);
+  }
+  useEffect(()=>{
+    getPoints();
+    console.log(points);
+   },[]);
 
   return (
     <>
@@ -90,12 +119,9 @@ export const ServiceSection = (props:ServiceSectionProps) => {
               render={({field})=>(
                 <>
                   <SelectServiceSection {...field}>
-                    {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
-                    <MenuItem value="座間駅">座間駅</MenuItem>
-                    <MenuItem value="入谷駅">入谷駅</MenuItem>
-                    <MenuItem value="横浜駅">横浜駅</MenuItem>
-                    <MenuItem value="川崎駅">川崎駅</MenuItem>
-                    <MenuItem value="登戸駅">登戸駅</MenuItem>
+                    {points.map((point)=>(
+                    <MenuItem key={point.id}>{point.name}</MenuItem>
+                  ))}
                   </SelectServiceSection>
                 </>
               )}
@@ -107,12 +133,9 @@ export const ServiceSection = (props:ServiceSectionProps) => {
               render={({field})=>(
                 <>
                   <SelectServiceSection {...field} >
-                    {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
-                    <MenuItem value="座間駅">座間駅</MenuItem>
-                    <MenuItem value="入谷駅">入谷駅</MenuItem>
-                    <MenuItem value="横浜駅">横浜駅</MenuItem>
-                    <MenuItem value="川崎駅">川崎駅</MenuItem>
-                    <MenuItem value="登戸駅">登戸駅</MenuItem>
+                    {points.map((point)=>(
+                    <MenuItem key={point.id}>{point.name}</MenuItem>
+                  ))}
                   </SelectServiceSection>
                 </>
               )}
@@ -123,10 +146,21 @@ export const ServiceSection = (props:ServiceSectionProps) => {
             control={props.control}
             {...props.register(`serviceSections.${props.number}.isRouteDuplicated`)}
             render={({field})=>(
-              <RadioGroup {...field} defaultValue={false}>
+              <StyledRadioGroup {...field} defaultValue={false}>
                 <FormControlLabel value={false} control={<Radio />} label="無"/>
                 <FormControlLabel value={true} control={<Radio />} label="有"/>
-              </RadioGroup>
+              </StyledRadioGroup>
+            )}
+          />
+          <StyledInputLabel>往復・片道</StyledInputLabel>
+          <Controller
+            control={props.control}
+            {...props.register(`serviceSections.${props.number}.roundTripOrOneWay`)}
+            render={({field})=>(
+              <StyledRadioGroup {...field} defaultValue={RoundTripOrOneWay.ONE_WAY}>
+                <FormControlLabel value={RoundTripOrOneWay.ONE_WAY} control={<Radio />} label="片道"/>
+                <FormControlLabel value={RoundTripOrOneWay.ROUND_TRIP} control={<Radio />} label="往復"/>
+              </StyledRadioGroup>
             )}
           />
 
@@ -138,6 +172,7 @@ export const ServiceSection = (props:ServiceSectionProps) => {
             render={()=>(
               <OutlinedInput
                 type="text"
+                defaultValue={0}
                 onChange={(newValue)=>{
                   props.setValue(`serviceSections.${props.number}.serviceSectionExpense`,newValue.target.value as unknown as number)}
                   // name="serviceSectionExpense",newValue as Date)
