@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RegistMode } from "../Utility/Enums"
 
-const useHandleRegistMode = () => {
+const useHandleRegistMode = ():[boolean,boolean,() => void] => {
   const [registMode,setRegistMode] = useState<RegistMode>(RegistMode.REGIST_NEW_VALUE);
   const registNewValue: boolean = (registMode === RegistMode.REGIST_NEW_VALUE);
   const selectFromRegisteredValue: boolean = (registMode === RegistMode.SELECT_FROM_REGISTERED_VALUE);
@@ -14,7 +14,7 @@ const useHandleRegistMode = () => {
       setRegistMode(RegistMode.REGIST_NEW_VALUE);
     }
   }
-  return {registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode};
+  return [registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode];
 }
 
 export default useHandleRegistMode;

@@ -19,6 +19,12 @@ const SelectServiceSection = styled(Select)({
   flexGrow: 1,
 })
 
+const ButtonContainer = styled('div')({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-around"
+})
+
 interface PointsProps{
   control:Control<Inputs,any>
   register: UseFormRegister<Inputs>
@@ -28,7 +34,8 @@ interface PointsProps{
 
 
 export const Points = (props: PointsProps) => {
-  const {registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode} = useHandleRegistMode();
+  const [registNewStartPointValue, selectFromRegisteredStartPointValue, handleOnClickSwitchRegistModeForStartPoint] = useHandleRegistMode();
+  const [registNewEndPointValue, selectFromRegisteredEndPointValue, handleOnClickSwitchRegistModeForEndPoint] = useHandleRegistMode();
 
   const fetchPoints = async () => {
     const response = await axios.get(`${baseURL}/points`);
@@ -45,7 +52,7 @@ export const Points = (props: PointsProps) => {
           {...props.register(`serviceSections.${props.number}.startPoint`)}
           render={({field})=>(
             <>
-              {selectFromRegisteredValue && 
+              {selectFromRegisteredStartPointValue && 
                 (
                   <SelectServiceSection {...field}>
                     {points.data?.map((point)=>(
@@ -54,7 +61,7 @@ export const Points = (props: PointsProps) => {
                   </SelectServiceSection>
                 )
               }
-              {registNewValue && 
+              {registNewStartPointValue && 
                 (
                   <OutlinedInput
                     placeholder="始点"
@@ -73,7 +80,7 @@ export const Points = (props: PointsProps) => {
           {...props.register(`serviceSections.${props.number}.endPoint`)}
           render={({field})=>(
             <>
-              {selectFromRegisteredValue && 
+              {selectFromRegisteredEndPointValue && 
                 (
                   <SelectServiceSection {...field} >
                     {points.data?.map((point)=>(
@@ -82,7 +89,7 @@ export const Points = (props: PointsProps) => {
                   </SelectServiceSection>
                 )
               }
-              {registNewValue && 
+              {registNewEndPointValue && 
                 (
                   <OutlinedInput
                     placeholder="終点"
@@ -96,11 +103,16 @@ export const Points = (props: PointsProps) => {
           )}
         />
       </ServiceSectionContainer>
-      {/* <Button onClick={handleOnClickSwitchRegistMode}>新しい始点終点を登録する</Button> */}
-      <Button onClick={handleOnClickSwitchRegistMode}>
-        {registNewValue && ("登録済みの始点終点から選択する")}
-        {selectFromRegisteredValue && ("新しい始点終点を登録する")}
-      </Button>
+      <ButtonContainer>
+        <Button onClick={handleOnClickSwitchRegistModeForStartPoint}>
+          {registNewStartPointValue && ("登録済みの始点を選択する")}
+          {selectFromRegisteredStartPointValue && ("新しい始点を登録する")}
+        </Button>
+        <Button onClick={handleOnClickSwitchRegistModeForEndPoint}>
+          {registNewEndPointValue && ("登録済みの終点を選択する")}
+          {selectFromRegisteredEndPointValue && ("新しい終点を登録する")}
+        </Button>
+      </ButtonContainer>
     </>
   )
 }

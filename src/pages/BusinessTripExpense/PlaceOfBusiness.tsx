@@ -24,7 +24,7 @@ interface PlaceOfBusinessProps{
 }
 
 export const PlaceOfBusiness = (props: PlaceOfBusinessProps) => {
-  const {registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode} = useHandleRegistMode();
+  const [registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode] = useHandleRegistMode();
 
   // TODO カスタムフック化できないか検討
   const fetchPlacesOfBusiness = async () => {

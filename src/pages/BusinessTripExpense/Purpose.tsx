@@ -11,7 +11,7 @@ interface PurposeProps{
 }
 
 export const Purpose = (props:PurposeProps) => {
-  const {registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode} = useHandleRegistMode();
+  const [registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode] = useHandleRegistMode();
 
   return (
   <>

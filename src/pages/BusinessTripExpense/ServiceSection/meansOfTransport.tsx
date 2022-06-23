@@ -14,7 +14,7 @@ interface MeansOfTransportProps{
   control: Control<Inputs,any>
 }
 export const MeansOfTransport = (props: MeansOfTransportProps) => {
-  const {registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode} = useHandleRegistMode();
+  const [registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode] = useHandleRegistMode();
 
   const fetchMeansOfTransport = async () => {
     const response = await axios.get(`${baseURL}/meansOfTransport`);
