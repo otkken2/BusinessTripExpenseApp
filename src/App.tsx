@@ -13,11 +13,13 @@ import { RegistPlaceOfBusiness } from './pages/RegistPlaceOfBusiness/RegistPlace
 import { RegistPurpose } from './pages/RegistPurpose/RegistPurpose';
 import ResponsiveDrawer from './components/ResponsiveDrawer';
 import { RegistUserInfo } from './pages/RegistUserInfo/RegistUserInfo';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const StyledWrapper = styled('div')({
   margin:"15px",
 })
 
+const queryClient = new QueryClient();
 // const baseURL = "http://0.0.0.0:8000/api/meansOfTransport"
 // const baseURL = "https://jsonplaceholder.typicode.com/posts"
 
@@ -30,23 +32,25 @@ function App() {
   //   console.log(meansOfTransports)
   // }
 
-  return (     
-    <BrowserRouter>
-      <Header />
-      <StyledWrapper>
-        <Routes>
-          <Route path='/' element={<Home/>} />
-          <Route path='/signUp' element={<SignUp/>} />
-          <Route path='/login' element={<Login/>} />
-          {/* <Route path='/trip' element={<Trip/>} /> */}
-          <Route path='/registPlaceOfBusiness' element={<RegistPlaceOfBusiness/>} />
-          <Route path='/registPurpose' element={<RegistPurpose/>} />
-          <Route path='/businessTripExpense' element={<BusinessTripExpense/>} />
-          <Route path='/responsiveDrawer' element={<ResponsiveDrawer/>} />
-          <Route path='/registUserInfo' element={<RegistUserInfo/>} />
-        </Routes>
-      </StyledWrapper>
-    </BrowserRouter> 
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Header />
+        <StyledWrapper>
+          <Routes>
+            <Route path='/' element={<Home/>} />
+            <Route path='/signUp' element={<SignUp/>} />
+            <Route path='/login' element={<Login/>} />
+            {/* <Route path='/trip' element={<Trip/>} /> */}
+            <Route path='/registPlaceOfBusiness' element={<RegistPlaceOfBusiness/>} />
+            <Route path='/registPurpose' element={<RegistPurpose/>} />
+            <Route path='/businessTripExpense' element={<BusinessTripExpense/>} />
+            <Route path='/responsiveDrawer' element={<ResponsiveDrawer/>} />
+            <Route path='/registUserInfo' element={<RegistUserInfo/>} />
+          </Routes>
+        </StyledWrapper>
+      </BrowserRouter> 
+    </QueryClientProvider>
   )
 }
 

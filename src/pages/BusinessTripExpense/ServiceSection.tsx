@@ -1,16 +1,13 @@
-import {MenuItem, Select, SelectChangeEvent, styled, Paper, OutlinedInput, InputAdornment, RadioGroup, FormControlLabel, Radio}from "@mui/material";
+import {MenuItem, Select, SelectChangeEvent, styled, Paper, OutlinedInput, InputAdornment, RadioGroup, FormControlLabel, Radio, Button}from "@mui/material";
 // import { useAtom } from "jotai";
 // import { ChangeEvent } from "react";
 // import { meansOfTransportAtom,startPointAtom,endPointAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { StyledInputLabel } from "../../Utility/globalStyles";
 // import { serviceSectionInterFace } from "../../Utility/interfaces";
 import { UseFormRegister, Controller, Control, UseFormSetValue } from 'react-hook-form';
-import { Inputs } from "./BusinessTripExpense";
-import { useEffect } from "react";
-import axios from "axios";
-import { useAtom } from "jotai";
-import { PointsAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
-import { Point } from "../../Utility/interfaces";
+import { baseURL, Inputs } from "./BusinessTripExpense";
+import { Points } from "./ServiceSection/Points";
+import { MeansOfTransport } from "./ServiceSection/meansOfTransport";
 
 const Container = styled('div')({
   display: "flex",
@@ -51,96 +48,34 @@ export const enum RoundTripOrOneWay{
   ONE_WAY = 1,
   ROUND_TRIP = 2,
 }
+export interface MeansOfTransportInterface{
+  id: number;
+  name: string;
+}
 
 interface ServiceSectionProps{
-  number: number,
-  register: UseFormRegister<Inputs>;
-  control:Control<Inputs,any>;
+  number: number
+  register: UseFormRegister<Inputs>
+  control:Control<Inputs,any>
   setValue:UseFormSetValue<Inputs>
 }
 
-const baseURL = "http://0.0.0.0:8000/api/businessTripExpense/points"
 
 export const ServiceSection = (props:ServiceSectionProps) => {
+  
 
-  // const [meansOfTransport, setMeansOfTransport] = useAtom(meansOfTransportAtom);
-  // const handleOnChangeServiceSection = (event: SelectChangeEvent<string>) => {
-  //   setMeansOfTransport(event.target.value);
-  // }
-
-  // const [startPoint, setStartPoint] = useAtom(startPointAtom);
-  // const handelOnChangeStartPoint = (event:SelectChangeEvent<unknown>) => {
-  //   setStartPoint(event.target.value as unknown as string);
-  // }
-
-  // const [endPoint, setEndPoint] = useAtom(endPointAtom);
-  // const handelOnChangeEndPoint = (event:SelectChangeEvent<unknown>) => {
-  //   setEndPoint(event.target.value as string);
-  // }
-
-  const [points,setPoints] = useAtom(PointsAtom)
-  const getPoints = async () => {
-    const response = await axios.get(baseURL);
-    const points:Point[] = JSON.parse(JSON.stringify(response.data.points));
-    setPoints(points);
-  }
-  useEffect(()=>{
-    getPoints();
-    console.log(points);
-   },[]);
+  
 
   return (
     <>
       <h3>{`利用区間${props.number + 1}`}</h3>
       <Paper>
         <Container>
-          
-          <StyledInputLabel>交通手段・機関</StyledInputLabel>
-          <Controller
-            control={props.control}
-            {...props.register(`serviceSections.${props.number}.meansOfTransport`)}
-            render={({field})=>(
-              <>
-                <Select {...field}>
-                  {/* TODO 本当はDBから値を取得して埋め込む。map関数使う */}
-                  <MenuItem value="京王線">京王線</MenuItem>
-                  <MenuItem value="小田急線">小田急線</MenuItem>
-                  <MenuItem value="JR相模線">JR相模線</MenuItem>
-                </Select>
-              </>
-            )}
-          />
+          {/* 交通機関選択コンポーネント */}
+          <MeansOfTransport control={props.control} register={props.register} number={props.number} setValue={props.setValue}/>
+          {/* 始点終点選択コンポーネント */}
+          <Points control={props.control} register={props.register} number={props.number} setValue={props.setValue}/>
 
-          <StyledInputLabel>利用区間</StyledInputLabel>
-          <ServiceSectionContainer>
-            <Controller
-              control={props.control}
-              {...props.register(`serviceSections.${props.number}.startPoint`)}
-              render={({field})=>(
-                <>
-                  <SelectServiceSection {...field}>
-                    {points.map((point)=>(
-                    <MenuItem key={point.id}>{point.name}</MenuItem>
-                  ))}
-                  </SelectServiceSection>
-                </>
-              )}
-            />
-            <p> 〜 </p>
-            <Controller
-              control={props.control}
-              {...props.register(`serviceSections.${props.number}.endPoint`)}
-              render={({field})=>(
-                <>
-                  <SelectServiceSection {...field} >
-                    {points.map((point)=>(
-                    <MenuItem key={point.id}>{point.name}</MenuItem>
-                  ))}
-                  </SelectServiceSection>
-                </>
-              )}
-            />
-          </ServiceSectionContainer>
           <StyledInputLabel>経路重複</StyledInputLabel>
           <Controller
             control={props.control}
@@ -175,7 +110,6 @@ export const ServiceSection = (props:ServiceSectionProps) => {
                 defaultValue={0}
                 onChange={(newValue)=>{
                   props.setValue(`serviceSections.${props.number}.serviceSectionExpense`,newValue.target.value as unknown as number)}
-                  // name="serviceSectionExpense",newValue as Date)
                 }
                 endAdornment={
                   <InputAdornment position="end">円</InputAdornment>

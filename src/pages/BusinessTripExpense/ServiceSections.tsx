@@ -20,7 +20,8 @@ export const ServiceSections = (props: ServiceSectionsProps) => {
 
   return (
     <>
-      {props.fields.map((field,index)=> (
+      {props.fields.map((_,index)=> (
+        // @ts-ignore
           <ServiceSection {...props.register("serviceSections")} key={index} number={index} register={props.register} control={props.control} setValue={props.setValue}/>
       ))}
       <Button onClick={handleOnAppendServiceSection}>➕利用区間を追加する</Button>

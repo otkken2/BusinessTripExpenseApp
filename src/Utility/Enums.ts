@@ -21,3 +21,8 @@ export const enum AllTheWayType{
   USE_OF_PUBLIC_CAR_ALL = "useOfPublicCarAll",
   USE_OF_PRIVATE_CAR_ALL = "usePrivateCarAll",
 }
+
+export const enum RegistMode{
+  REGIST_NEW_VALUE = "registNewValue",
+  SELECT_FROM_REGISTERED_VALUE = "selectFromRegisteredValue",
+}

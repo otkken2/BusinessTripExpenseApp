@@ -56,6 +56,8 @@ export interface Inputs {
   totalExpense: number;
 }
 
+export const baseURL = "http://0.0.0.0:8000/api/businessTripExpense";
+
 export const BusinessTripExpense = () => {
   const { register, handleSubmit,control,setValue,watch} = useForm<Inputs>({
     defaultValues: {
@@ -85,7 +87,7 @@ export const BusinessTripExpense = () => {
     watchServiceSections.map((serviceSection)=>{
       total += Number(serviceSection.serviceSectionExpense*(serviceSection.roundTripOrOneWay as number));
     })
-    console.log(`利用区間全ての経費の合計は${total}円`);
+    // console.log(`利用区間全ての経費の合計は${total}円`);
     return total;
   }
   // returnServiceSectionExpenseTotal(); 　即時反映OK
@@ -93,7 +95,7 @@ export const BusinessTripExpense = () => {
   const returnDrivenByPrivateCarExpense = () => {
     const unitPrice = 15;
     const watchDistance = watch("distanceValue");
-    console.log(`自家用車運転経費は${watchDistance*unitPrice}円`)
+    // console.log(`自家用車運転経費は${watchDistance*unitPrice}円`)
     return watchDistance*unitPrice;;
   }
   returnDrivenByPrivateCarExpense();　//即時反映OK
@@ -101,22 +103,22 @@ export const BusinessTripExpense = () => {
   const returnMiscellaneousExpense = () => {
     const unitPrice = 120;
     const watchNumberOfTripDays = watch("numberOfTripDays");
-    console.log(`旅行雑費は${watchNumberOfTripDays*unitPrice}円`)
+    // console.log(`旅行雑費は${watchNumberOfTripDays*unitPrice}円`)
     return watchNumberOfTripDays*unitPrice;
   }
   // returnMiscellaneousExpense();　即時反映OK
 
   const returnHotelCharge = () => {
     if(watch("hotelChargeType") == HotelCharge.KOU){
-      console.log(`ホテルの宿泊料金は${HotelCharge.KOU}円`)
+      // console.log(`ホテルの宿泊料金は${HotelCharge.KOU}円`)
       return HotelCharge.KOU;
     }
     if(watch("hotelChargeType") == HotelCharge.OTSU){
-      console.log(`ホテルの宿泊料金は${HotelCharge.OTSU}円`)
+      // console.log(`ホテルの宿泊料金は${HotelCharge.OTSU}円`)
       return HotelCharge.OTSU;
     }
     if(watch("hotelChargeType") === HotelCharge.ACTUAL_HOTEL_CHARGE){
-      console.log(`ホテルの宿泊料金は${watch("actualHotelChargeValue")}円`)
+      // console.log(`ホテルの宿泊料金は${watch("actualHotelChargeValue")}円`)
       return Number(watch("actualHotelChargeValue"));
     }
     return 0;
@@ -151,13 +153,11 @@ export const BusinessTripExpense = () => {
   // const [endPoint] = useAtom(endPointAtom);
   // const [serviceSections] = useAtom(serviceSectionsAtom)
 
-  const [_,setTotalExpense] = useAtom(totalExpenseAtom);
   useEffect(()=>{
     let serviceSectionExpenseTotal = returnServiceSectionExpenseTotal();
     let distanceValue = returnDrivenByPrivateCarExpense();
     let miscellaneousExpense = returnMiscellaneousExpense();
     let hotelCharge = returnHotelCharge();
-    console.log("useEffect done!")
     setValue("totalExpense",serviceSectionExpenseTotal + distanceValue + miscellaneousExpense + hotelCharge - burdenAmount)
   },[watch(["serviceSections","distanceValue","numberOfTripDays","hotelChargeType","burdenAmount"])])
   
