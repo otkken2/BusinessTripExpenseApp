@@ -31,6 +31,7 @@ import {
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { RoundTripOrOneWay, ServiceSection } from "./ServiceSection";
 import { useEffect } from "react";
+import axios from "axios";
 
 export interface Inputs {
   dayOrOvernight: DayOrOvernight;
@@ -76,9 +77,22 @@ export const BusinessTripExpense = () => {
     name: "serviceSections"
   })
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     alert("登録されました！")
-    console.log("onSubmit!",data);
+    // console.log("onSubmit!",data);
+    await axios.post(`${baseURL}/placesOfBusiness`,{
+      name : data.placeOfBusiness,
+    });
+    data.serviceSections.map((serviceSection) => {
+      axios.post(`${baseURL}/points`, {
+        name: serviceSection.startPoint,
+        type: "train_station",
+      });
+      axios.post(`${baseURL}/points`, {
+        name: serviceSection.endPoint,
+        type: "bus_station",
+      });
+    })
   }
 
   const returnServiceSectionExpenseTotal = ()=>{
