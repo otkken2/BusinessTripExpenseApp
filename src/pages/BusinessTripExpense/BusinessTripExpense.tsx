@@ -83,6 +83,10 @@ export const BusinessTripExpense = () => {
     await axios.post(`${baseURL}/placesOfBusiness`,{
       name : data.placeOfBusiness,
     });
+    await axios.post(`${baseURL}/purpose`,{
+      name : data.purpose,
+    })
+
     data.serviceSections.map((serviceSection) => {
       axios.post(`${baseURL}/points`, {
         name: serviceSection.startPoint,
@@ -92,6 +96,9 @@ export const BusinessTripExpense = () => {
         name: serviceSection.endPoint,
         type: "bus_station",
       });
+      axios.post(`${baseURL}/meansOfTransport`,{
+        name : serviceSection.meansOfTransport,
+      })
     })
   }
 

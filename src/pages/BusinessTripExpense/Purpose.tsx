@@ -1,8 +1,15 @@
 import { Button, FormControl, MenuItem, OutlinedInput, Select, SelectChangeEvent }from "@mui/material";
 import {StyledInputLabel} from "../../Utility/globalStyles"
 import { Control, Controller, UseFormRegister,UseFormSetValue} from "react-hook-form";
-import { Inputs } from "./BusinessTripExpense";
+import { baseURL, Inputs } from "./BusinessTripExpense";
 import useHandleRegistMode from "../../hooks/useHandleRegistMode";
+import axios from "axios";
+import { useQuery } from "react-query";
+
+interface Purpose{
+  id: number,
+  name: string
+}
 
 interface PurposeProps{
   register:UseFormRegister<Inputs>
@@ -13,6 +20,13 @@ interface PurposeProps{
 export const Purpose = (props:PurposeProps) => {
   const [registNewValue,selectFromRegisteredValue,handleOnClickSwitchRegistMode] = useHandleRegistMode();
 
+  const fetchPurposes = async () => {
+    const response = await axios.get(`${baseURL}/purpose`);
+    const purposes: Purpose[] = JSON.parse(JSON.stringify(response.data.purposes));
+    return purposes;
+  }
+
+  const purposes = useQuery('purposes',fetchPurposes);
   return (
   <>
     <FormControl>
@@ -29,9 +43,9 @@ export const Purpose = (props:PurposeProps) => {
                       {...field}
                       defaultValue=""
                       >
-                      <MenuItem value="書類提出">書類提出</MenuItem>
-                      <MenuItem value="打ち合わせ">打ち合わせ</MenuItem>
-                      <MenuItem value="視察">視察</MenuItem>
+                        {purposes.data?.map((purpose)=> (
+                          <MenuItem key={purpose.id} value={purpose.name}>{purpose.name}</MenuItem>
+                        ))}
                     </Select>
                   )
                 }

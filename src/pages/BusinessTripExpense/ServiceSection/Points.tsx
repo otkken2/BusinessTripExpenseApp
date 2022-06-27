@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { Button, MenuItem, OutlinedInput, Select } from "@mui/material";
+import { lineHeight } from "@mui/system";
 import axios from "axios";
 import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { useQuery, UseQueryResult } from "react-query";
 import useHandleRegistMode from "../../../hooks/useHandleRegistMode";
 import { StyledInputLabel } from "../../../Utility/globalStyles";
-import { Point } from "../../../Utility/interfaces";
 import { baseURL, Inputs } from "../BusinessTripExpense";
 
 const ServiceSectionContainer = styled('div')({
@@ -17,6 +17,7 @@ const ServiceSectionContainer = styled('div')({
 
 const SelectServiceSection = styled(Select)({
   flexGrow: 1,
+  marginLeft: "5px"
 })
 
 const ButtonContainer = styled('div')({
@@ -24,6 +25,11 @@ const ButtonContainer = styled('div')({
   flexDirection: "row",
   justifyContent: "space-around"
 })
+
+export interface Point{
+  id: number,
+  name: string
+}
 
 interface PointsProps{
   control:Control<Inputs,any>
@@ -47,6 +53,9 @@ export const Points = (props: PointsProps) => {
     <>
       <StyledInputLabel>利用区間</StyledInputLabel>
       <ServiceSectionContainer>
+        <label htmlFor="#" style={{margin: "auto"}}>
+          始点
+        </label>
         <Controller
           control={props.control}
           {...props.register(`serviceSections.${props.number}.startPoint`)}
@@ -68,13 +77,23 @@ export const Points = (props: PointsProps) => {
                     onChange={(newValue)=>{
                       props.setValue(`serviceSections.${props.number}.startPoint`,newValue.target.value as string);
                     }}
+                    sx={{flexGrow: 1,marginLeft: "5px"}}
                   />
                 )
               }
             </>
           )}
         />
+      </ServiceSectionContainer>
+      <Button onClick={handleOnClickSwitchRegistModeForStartPoint}>
+        {registNewStartPointValue && ("登録済みの始点を選択する")}
+        {selectFromRegisteredStartPointValue && ("新しい始点を登録する")}
+      </Button>
         <p> 〜 </p>
+      <ServiceSectionContainer>
+      <label htmlFor="#" style={{margin: "auto"}}>
+        終点
+      </label>
         <Controller
           control={props.control}
           {...props.register(`serviceSections.${props.number}.endPoint`)}
@@ -85,7 +104,7 @@ export const Points = (props: PointsProps) => {
                   <SelectServiceSection {...field} >
                     {points.data?.map((point)=>(
                       <MenuItem key={point.id} value={point.name}>{point.name}</MenuItem>
-                  ))}
+                      ))}
                   </SelectServiceSection>
                 )
               }
@@ -96,18 +115,16 @@ export const Points = (props: PointsProps) => {
                     onChange={(newValue)=>{
                       props.setValue(`serviceSections.${props.number}.endPoint`,newValue.target.value as string);
                     }}
+                    sx={{flexGrow: 1,marginLeft: "5px"}}
                   />
-                )
-              }
+                  )
+                }
             </>
           )}
-        />
+          />
       </ServiceSectionContainer>
       <ButtonContainer>
-        <Button onClick={handleOnClickSwitchRegistModeForStartPoint}>
-          {registNewStartPointValue && ("登録済みの始点を選択する")}
-          {selectFromRegisteredStartPointValue && ("新しい始点を登録する")}
-        </Button>
+        
         <Button onClick={handleOnClickSwitchRegistModeForEndPoint}>
           {registNewEndPointValue && ("登録済みの終点を選択する")}
           {selectFromRegisteredEndPointValue && ("新しい終点を登録する")}

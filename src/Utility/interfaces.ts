@@ -11,8 +11,3 @@ export interface serviceSectionInterFace{
   startPoint: Atom<string>;
   endPoint: Atom<string>;
 }
-
-export interface Point{
-  id: number,
-  name: string
-}

@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { ServiceSection } from "../../pages/BusinessTripExpense/ServiceSection";
 import { DayOrOvernight, AllTheWayType } from "../Enums";
-import { Point } from "../interfaces";
+import { Point } from "../../pages/BusinessTripExpense/ServiceSection/Points";
 
 // DateOfTrip.tsx
 export const firstDayAtom = atom<Date | null>(null);
