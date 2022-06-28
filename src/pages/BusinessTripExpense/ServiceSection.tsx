@@ -35,8 +35,8 @@ export interface ServiceSection{
   meansOfTransport: string;
   startPoint: string;
   endPoint: string;
-  isRouteDuplicated: boolean;
-  roundTripOrOneWay: RoundTripOrOneWay;
+  isRouteOverLap: boolean;
+  oneWayOrRoundTrip: OneWayOrRoundTrip;
   serviceSectionExpense: number;
 }
 
@@ -44,7 +44,7 @@ export interface ServiceSectionForm{
   serviceSections: ServiceSection[]
 }
 
-export const enum RoundTripOrOneWay{
+export const enum OneWayOrRoundTrip{
   ONE_WAY = 1,
   ROUND_TRIP = 2,
 }
@@ -79,7 +79,7 @@ export const ServiceSection = (props:ServiceSectionProps) => {
           <StyledInputLabel>経路重複</StyledInputLabel>
           <Controller
             control={props.control}
-            {...props.register(`serviceSections.${props.number}.isRouteDuplicated`)}
+            {...props.register(`serviceSections.${props.number}.isRouteOverLap`)}
             render={({field})=>(
               <StyledRadioGroup {...field} defaultValue={false}>
                 <FormControlLabel value={false} control={<Radio />} label="無"/>
@@ -90,11 +90,11 @@ export const ServiceSection = (props:ServiceSectionProps) => {
           <StyledInputLabel>往復・片道</StyledInputLabel>
           <Controller
             control={props.control}
-            {...props.register(`serviceSections.${props.number}.roundTripOrOneWay`)}
+            {...props.register(`serviceSections.${props.number}.oneWayOrRoundTrip`)}
             render={({field})=>(
-              <StyledRadioGroup {...field} defaultValue={RoundTripOrOneWay.ONE_WAY}>
-                <FormControlLabel value={RoundTripOrOneWay.ONE_WAY} control={<Radio />} label="片道"/>
-                <FormControlLabel value={RoundTripOrOneWay.ROUND_TRIP} control={<Radio />} label="往復"/>
+              <StyledRadioGroup {...field} defaultValue={OneWayOrRoundTrip.ONE_WAY}>
+                <FormControlLabel value={OneWayOrRoundTrip.ONE_WAY} control={<Radio />} label="片道"/>
+                <FormControlLabel value={OneWayOrRoundTrip.ROUND_TRIP} control={<Radio />} label="往復"/>
               </StyledRadioGroup>
             )}
           />

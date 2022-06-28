@@ -29,7 +29,7 @@ import {
   // serviceSectionsAtom
 } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { RoundTripOrOneWay, ServiceSection } from "./ServiceSection";
+import { OneWayOrRoundTrip, ServiceSection } from "./ServiceSection";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -46,7 +46,7 @@ export interface Inputs {
   isCheckedReturnDirectly: boolean;
   allTheWayType: AllTheWayType;
   serviceSections: ServiceSection[];
-  isRouteDuplicated: boolean;
+  isRouteOverLap: boolean;
   serviceSectionExpense: number;
   drivenByPrivateCar: boolean;
   distanceValue: number;
@@ -65,7 +65,7 @@ export const BusinessTripExpense = () => {
       firstDay: new Date(),
       distanceValue: 0,
       serviceSections: [
-        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0,roundTripOrOneWay: RoundTripOrOneWay.ONE_WAY},
+        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0,oneWayOrRoundTrip: OneWayOrRoundTrip.ONE_WAY},
       ],
       actualHotelChargeValue: 0,
       burdenAmount: 0,
@@ -79,7 +79,7 @@ export const BusinessTripExpense = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     alert("登録されました！")
-    // console.log("onSubmit!",data);
+    console.log("onSubmit!",data);
     await axios.post(`${baseURL}/placesOfBusiness`,{
       name : data.placeOfBusiness,
     });
@@ -88,16 +88,24 @@ export const BusinessTripExpense = () => {
     })
 
     data.serviceSections.map((serviceSection) => {
-      axios.post(`${baseURL}/points`, {
-        name: serviceSection.startPoint,
-        type: "train_station",
-      });
-      axios.post(`${baseURL}/points`, {
-        name: serviceSection.endPoint,
-        type: "bus_station",
-      });
-      axios.post(`${baseURL}/meansOfTransport`,{
-        name : serviceSection.meansOfTransport,
+      // axios.post(`${baseURL}/points`, {
+      //   name: serviceSection.startPoint,
+      //   type: "train_station",
+      // });
+      // axios.post(`${baseURL}/points`, {
+      //   name: serviceSection.endPoint,
+      //   type: "bus_station",
+      // });
+      // axios.post(`${baseURL}/meansOfTransport`,{
+      //   name : serviceSection.meansOfTransport,
+      // })
+      axios.post(`${baseURL}/serviseSection`,{
+        meansOfTransport : serviceSection.meansOfTransport,
+        startPointName : serviceSection.startPoint,
+        endPointName : serviceSection.endPoint,
+        expense : serviceSection.serviceSectionExpense,
+        oneWayOrRoundTrip : serviceSection.oneWayOrRoundTrip,
+        isRouteOverLap : serviceSection.isRouteOverLap,
       })
     })
   }
@@ -106,7 +114,7 @@ export const BusinessTripExpense = () => {
     let total: number = 0;
     const watchServiceSections = watch('serviceSections');
     watchServiceSections.map((serviceSection)=>{
-      total += Number(serviceSection.serviceSectionExpense*(serviceSection.roundTripOrOneWay as number));
+      total += Number(serviceSection.serviceSectionExpense*(serviceSection.oneWayOrRoundTrip as number));
     })
     // console.log(`利用区間全ての経費の合計は${total}円`);
     return total;
