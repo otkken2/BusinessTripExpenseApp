@@ -8,7 +8,7 @@ import { ServiceSections } from "./ServiceSections";
 import { DistanceDrivenByPrivateCar } from "./DistanceDrivenByPrivateCar";
 import { MiscellaneousExpense } from "./MiscellaneousExpense";
 import { HotelCharge, HotelChargeRadio } from "./HotelChargeRadio";
-import { BurdenAmount } from "./BurdenAmount";
+import { BurdenAmount, BurdenAmountType } from "./BurdenAmount";
 import { TotalExpense } from "./TotalExpense";
 import { useAtom } from "jotai";
 import { 
@@ -53,6 +53,7 @@ export interface Inputs {
   numberOfTripDays: number;
   hotelChargeType: HotelCharge;
   actualHotelChargeValue: number;
+  burdenAmountType: BurdenAmountType;
   burdenAmount: number;
   totalExpense: number;
 }
@@ -197,7 +198,7 @@ export const BusinessTripExpense = () => {
           <DistanceDrivenByPrivateCar register={register} control={control} setValue={setValue} watch={watch}/>
           <MiscellaneousExpense register={register} control={control} setValue={setValue}/>
           <HotelChargeRadio register={register} control={control} setValue={setValue} watch={watch}/>
-          <BurdenAmount register={register} control={control} setValue={setValue}/>
+          <BurdenAmount register={register} control={control} setValue={setValue} watch={watch}/>
           <TotalExpense register={register} control={control} setValue={setValue} watch={watch}/>
           <StyledButton type="submit"  color="primary" variant="contained">この内容で登録する</StyledButton>
         </StyledForm>

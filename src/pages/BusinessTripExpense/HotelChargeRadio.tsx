@@ -9,7 +9,7 @@ const StyledOutlinedInput = styled(OutlinedInput)({
 
 export const enum HotelCharge{
   KOU = 13000,
-  OTSU = 11000,
+  OTSU = 11700,
   ACTUAL_HOTEL_CHARGE = "ActualHotelCharge",
 }
 interface HotelChargeRadioProps{
