@@ -65,7 +65,7 @@ export const BusinessTripExpense = () => {
       firstDay: new Date(),
       distanceValue: 0,
       serviceSections: [
-        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0,oneWayOrRoundTrip: OneWayOrRoundTrip.ONE_WAY},
+        {meansOfTransport: "", startPoint:"", endPoint: "",serviceSectionExpense: 0,oneWayOrRoundTrip: OneWayOrRoundTrip.ONE_WAY,isRouteOverLap: false},
       ],
       actualHotelChargeValue: 0,
       burdenAmount: 0,
@@ -80,6 +80,11 @@ export const BusinessTripExpense = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     alert("登録されました！")
     console.log("onSubmit!",data);
+
+    await axios.post(baseURL,{
+      trip: data,
+    })
+
     await axios.post(`${baseURL}/placesOfBusiness`,{
       name : data.placeOfBusiness,
     });
@@ -87,27 +92,16 @@ export const BusinessTripExpense = () => {
       name : data.purpose,
     })
 
-    data.serviceSections.map((serviceSection) => {
-      // axios.post(`${baseURL}/points`, {
-      //   name: serviceSection.startPoint,
-      //   type: "train_station",
-      // });
-      // axios.post(`${baseURL}/points`, {
-      //   name: serviceSection.endPoint,
-      //   type: "bus_station",
-      // });
-      // axios.post(`${baseURL}/meansOfTransport`,{
-      //   name : serviceSection.meansOfTransport,
-      // })
-      axios.post(`${baseURL}/serviseSection`,{
-        meansOfTransport : serviceSection.meansOfTransport,
-        startPointName : serviceSection.startPoint,
-        endPointName : serviceSection.endPoint,
-        expense : serviceSection.serviceSectionExpense,
-        oneWayOrRoundTrip : serviceSection.oneWayOrRoundTrip,
-        isRouteOverLap : serviceSection.isRouteOverLap,
-      })
-    })
+    // data.serviceSections.map((serviceSection) => {
+    //   axios.post(`${baseURL}/serviseSection`,{
+    //     meansOfTransport : serviceSection.meansOfTransport,
+    //     startPointName : serviceSection.startPoint,
+    //     endPointName : serviceSection.endPoint,
+    //     expense : serviceSection.serviceSectionExpense,
+    //     oneWayOrRoundTrip : serviceSection.oneWayOrRoundTrip,
+    //     isRouteOverLap : serviceSection.isRouteOverLap,
+    //   })
+    // })
   }
 
   const returnServiceSectionExpenseTotal = ()=>{

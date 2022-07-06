@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { Control, FieldArrayWithId, UseFieldArrayAppend, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { Inputs } from "./BusinessTripExpense";
 
-import { ServiceSection } from "./ServiceSection";
+import { OneWayOrRoundTrip, ServiceSection } from "./ServiceSection";
 
 interface ServiceSectionsProps{
   register:UseFormRegister<Inputs>
@@ -15,7 +15,7 @@ interface ServiceSectionsProps{
 export const ServiceSections = (props: ServiceSectionsProps) => {
   const handleOnAppendServiceSection = () => {
     console.log("hoge")
-    props.append({meansOfTransport: "",startPoint:"",endPoint:"",serviceSectionExpense:0})
+    props.append({meansOfTransport: "",startPoint:"",endPoint:"",serviceSectionExpense:0,oneWayOrRoundTrip: OneWayOrRoundTrip.ONE_WAY,isRouteOverLap: false})
   }
 
   return (
