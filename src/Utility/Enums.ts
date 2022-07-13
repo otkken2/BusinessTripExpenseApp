@@ -16,12 +16,6 @@ export const enum Authority{
   MEMBER = "member",
 }
 
-export const enum AllTheWayType{
-  ON_FOOT_ALL = "onFootAll",
-  USE_OF_PUBLIC_CAR_ALL = "useOfPublicCarAll",
-  USE_OF_PRIVATE_CAR_ALL = "usePrivateCarAll",
-}
-
 export const enum RegistMode{
   REGIST_NEW_VALUE = "registNewValue",
   SELECT_FROM_REGISTERED_VALUE = "selectFromRegisteredValue",
