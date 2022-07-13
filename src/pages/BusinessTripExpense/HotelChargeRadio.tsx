@@ -6,7 +6,7 @@ import { StyledInputLabel } from "../../Utility/globalStyles"
 import { Inputs } from "./BusinessTripExpense"
 
 const StyledOutlinedInput = styled(OutlinedInput)({
-  marginTop: "10px" 
+  marginTop: "15px" 
 })
 
 export const enum HotelCharge{
