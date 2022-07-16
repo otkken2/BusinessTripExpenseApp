@@ -1,8 +1,6 @@
 import { Checkbox, FormControlLabel, FormGroup, InputAdornment, OutlinedInput, styled } from "@mui/material"
-import { useAtom } from "jotai";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent} from "react";
 import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { drivenByPrivateCarAtom } from "../../Utility/Atoms/BusinessTripExpenseAtoms";
 import { Inputs } from "./BusinessTripExpense";
 
 const FlexContainer = styled('div')({
@@ -35,10 +33,8 @@ interface DistanceDrivenByPrivateCarProps{
 const unitPrice = 15;
 
 export const DistanceDrivenByPrivateCar = (props: DistanceDrivenByPrivateCarProps) => {
-  const [drivenByPrivateCar,setDrivenByPrivateCar] = useAtom(drivenByPrivateCarAtom);
-  const handleOnChangeCheckBox = () => {
-    // drivenByPrivateCar === false && setDistanceValue(0);
-    setDrivenByPrivateCar(!drivenByPrivateCar);
+  const handleOnChangeCheckBox = (event:ChangeEvent<HTMLInputElement>) => {
+    props.setValue("drivenByPrivateCar",!props.watch("drivenByPrivateCar"));
   };
 
   return (
@@ -49,7 +45,14 @@ export const DistanceDrivenByPrivateCar = (props: DistanceDrivenByPrivateCarProp
           name="drivenByPrivateCar"
           render={()=>(
             <>
-              <FormControlLabel control={<Checkbox {...props.register("drivenByPrivateCar")}checked={drivenByPrivateCar} onChange={handleOnChangeCheckBox}/>} label="自家用車運転"/>
+              <FormControlLabel 
+                control=
+                  {<Checkbox {...props.register("drivenByPrivateCar")}
+                    // checked={drivenByPrivateCar}
+                    checked={props.watch("drivenByPrivateCar")} 
+                    onChange={handleOnChangeCheckBox}/>}
+                    label="自家用車運転"
+                  />
             </>
          )}
         />
@@ -57,15 +60,15 @@ export const DistanceDrivenByPrivateCar = (props: DistanceDrivenByPrivateCarProp
         <FlexContainer>
           <Controller
             control={props.control}
-            name="distanceValue"
+            name="distanceOfDrivenByPrivateCar"
             render={()=>(
               <>
                 <StyledOutlinedInput
-                  {...props.register("distanceValue")}
-                  disabled={!drivenByPrivateCar}
+                  {...props.register("distanceOfDrivenByPrivateCar")}
+                  disabled={!props.watch("drivenByPrivateCar")}
                   type="text"
                   onChange={(newValue)=>{
-                    props.setValue("distanceValue",newValue.target.value as unknown as number)
+                    props.setValue("distanceOfDrivenByPrivateCar",newValue.target.value as unknown as number)
                   }}
                   endAdornment={
                     <InputAdornment position="end">km</InputAdornment>

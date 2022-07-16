@@ -38,3 +38,8 @@ export const drivenByPrivateCarAtom = atom<boolean>(false);
 
 // HotelChargeRadio.tsx
 export const actualHotelChargeValueAtom = atom<number>(0);
+
+// BurdenAmount.tsx
+export const fullAmountAtom = atom<boolean>(false);
+export const fareAtom = atom<boolean>(false);
+export const otherAtom = atom<boolean>(false);

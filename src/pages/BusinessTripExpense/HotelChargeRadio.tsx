@@ -1,7 +1,6 @@
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, Input, InputAdornment, MenuItem, OutlinedInput, Radio, RadioGroup, Select, styled } from "@mui/material"
-import { margin } from "@mui/system"
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react"
+import { InputAdornment, MenuItem, OutlinedInput, Select, styled } from "@mui/material"
 import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
+import { useHotelCharge } from "../../hooks/useHotelCharge"
 import { StyledInputLabel } from "../../Utility/globalStyles"
 import { Inputs } from "./BusinessTripExpense"
 
@@ -22,9 +21,7 @@ interface HotelChargeRadioProps{
 }
 
 export const HotelChargeRadio = (props: HotelChargeRadioProps) => {
-  const isActual = () => {
-    return props.watch("hotelChargeType") === HotelCharge.ACTUAL_HOTEL_CHARGE;
-  }; 
+  const [isActual,] = useHotelCharge(props.watch);
 
   const showActualHotelChargeInput = () => {
     return (isActual() && 

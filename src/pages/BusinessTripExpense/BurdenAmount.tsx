@@ -1,5 +1,7 @@
-import { FormControlLabel, InputAdornment, MenuItem, OutlinedInput, Radio, RadioGroup, Select } from "@mui/material"
+import { InputAdornment, MenuItem, OutlinedInput,Select } from "@mui/material"
+import { useEffect } from "react"
 import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
+import { useBurdenAmount } from "../../hooks/useBurdenAmount"
 import { StyledInputLabel } from "../../Utility/globalStyles"
 import { Inputs } from "./BusinessTripExpense"
 
@@ -16,15 +18,20 @@ export const enum BurdenAmountType{
 }
 
 export const BurdenAmount = (props:BurdenAmountProps) => {
-  const isTypeOther = () => {
-    return props.watch("burdenAmountType") === BurdenAmountType.OTHER;
-  }
+  const [,,setIsTypeFullAmount,,setIsTypeFare,isTypeOther,setIsTypeOther] = useBurdenAmount(props.setValue,props.watch);
+  
+  useEffect(()=>{
+    setIsTypeFullAmount(props.watch("burdenAmountType") === BurdenAmountType.FULL_AMOUNT);
+    setIsTypeFare(props.watch("burdenAmountType") === BurdenAmountType.FARE);
+    setIsTypeOther(props.watch("burdenAmountType") === BurdenAmountType.OTHER);
+  },[props.watch("burdenAmountType"),setIsTypeFullAmount,setIsTypeFare,setIsTypeOther])
+
   return (
     <>
       <StyledInputLabel>別途負担額</StyledInputLabel>
       <Controller
         control={props.control}
-        name="burdenAmount"
+        name="burdenAmountType"
         render={()=>
         (
           <Select
@@ -41,7 +48,7 @@ export const BurdenAmount = (props:BurdenAmountProps) => {
           </Select>
         )}
       />
-      {isTypeOther() && 
+      {isTypeOther && 
         <Controller
           control={props.control}
           name="burdenAmount"

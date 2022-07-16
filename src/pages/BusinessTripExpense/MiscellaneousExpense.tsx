@@ -1,5 +1,6 @@
 import { FormGroup, InputAdornment, OutlinedInput, styled } from "@mui/material";
-import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { Control, Controller, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { useMiscellaneousExpense } from "../../hooks/useMiscellaneousExpense";
 import { FlexContainer, StyledInputLabel } from "../../Utility/globalStyles";
 import { Inputs } from "./BusinessTripExpense";
 
@@ -18,11 +19,12 @@ interface MiscellaneousExpenseProps{
   register:UseFormRegister<Inputs>
   control:Control<Inputs,any>
   setValue:UseFormSetValue<Inputs>
+  watch:UseFormWatch<Inputs>
 }
 
 export const MiscellaneousExpense = (props: MiscellaneousExpenseProps) => {
 
-  const unitPrice = 120;
+  const [unitPrice,] = useMiscellaneousExpense(props.watch) 
 
   return (
     <>
