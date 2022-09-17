@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { AllTheWayType } from "./CheckBoxGroup";
 import axios from "axios";
 import { useTotalExpense } from "../../hooks/useTotalExpense";
+import { useAllTheWayType } from "../../hooks/useAllTheWayType";
 
 export interface Inputs {
   dayOrOvernight: DayOrOvernight;
@@ -64,28 +65,20 @@ export const BusinessTripExpense = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     alert("登録されました！")
-    console.log("onSubmit!",data);
+    // console.log("onSubmit!",data);
 
     await axios.post(baseURL,{
       trip: data,
     })
 
-    await axios.post(`${baseURL}/placesOfBusiness`,{
-      name : data.placeOfBusiness,
-    });
-    await axios.post(`${baseURL}/purpose`,{
-      name : data.purpose,
-    })
+    console.log("postedData↓");
+    console.log(data);
 
-    // data.serviceSections.map((serviceSection) => {
-    //   axios.post(`${baseURL}/serviseSection`,{
-    //     meansOfTransport : serviceSection.meansOfTransport,
-    //     startPointName : serviceSection.startPoint,
-    //     endPointName : serviceSection.endPoint,
-    //     expense : serviceSection.serviceSectionExpense,
-    //     oneWayOrRoundTrip : serviceSection.oneWayOrRoundTrip,
-    //     isRouteOverLap : serviceSection.isRouteOverLap,
-    //   })
+    // await axios.post(`${baseURL}/placesOfBusiness`,{
+    //   name : data.placeOfBusiness,
+    // });
+    // await axios.post(`${baseURL}/purpose`,{
+    //   name : data.purpose,
     // })
   }
 
@@ -115,7 +108,11 @@ export const BusinessTripExpense = () => {
           <PlaceOfBusiness register={register} control={control} setValue={setValue}/>
           <Purpose register={register} control={control} setValue={setValue}/>
           <CheckBoxGroup register={register} control={control} setValue={setValue}/>
-          <ServiceSections register={register} control={control} setValue={setValue} fields={fields} append={append}/>
+          {
+            watch("allTheWayType") ? "" 
+            :
+            <ServiceSections register={register} control={control} setValue={setValue} fields={fields} append={append} watch={watch}/>
+          }
           <DistanceDrivenByPrivateCar register={register} control={control} setValue={setValue} watch={watch}/>
           <MiscellaneousExpense register={register} control={control} setValue={setValue} watch={watch}/>
           <HotelChargeRadio register={register} control={control} setValue={setValue} watch={watch}/>

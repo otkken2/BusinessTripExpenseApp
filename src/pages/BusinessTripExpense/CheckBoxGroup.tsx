@@ -9,7 +9,7 @@ import { Inputs } from "./BusinessTripExpense";
 export const enum AllTheWayType{
   ON_FOOT_ALL = "全行程徒歩",
   USE_OF_PUBLIC_CAR_ALL = "全行程公用車利用",
-  USE_OF_PRIVATE_CAR_ALL = "全行程自家用車利用",
+  USE_OF_PRIVATE_CAR_ALL = "全行程自家用車同乗",
 }
 
 interface CheckBoxGroupProps{
@@ -80,6 +80,7 @@ export const CheckBoxGroup = (props:CheckBoxGroupProps) => {
             onChange={(event)=>{
               props.setValue("allTheWayType",event.target.value as AllTheWayType);
             }}
+            sx={{marginBottom:"15px"}}
           >
             <MenuItem value="">未選択</MenuItem>
             <MenuItem value={AllTheWayType.ON_FOOT_ALL}>{AllTheWayType.ON_FOOT_ALL}</MenuItem>

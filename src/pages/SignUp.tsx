@@ -2,6 +2,8 @@ import { Button, Paper } from "@material-ui/core";
 import { Input } from "../components/input";
 import { PasswordInput } from "../components/passwordInput";
 import {styled} from '@mui/material/styles';
+import { useForm } from "react-hook-form";
+import { AuthInputs } from "./Login";
 
 const StyledButton = styled(Button)({
   marginTop: "40px",
@@ -28,8 +30,8 @@ const StyledForm = styled("form")({
 })
 
 
-
 export const SignUp = () => {
+  const {control,setValue} = useForm<AuthInputs>();
   const typeOfContent = "メールアドレス";
   return (
     <StyledContainer>
@@ -37,8 +39,8 @@ export const SignUp = () => {
       <StyledPaper elevation={2}>
         <StyledForm action="#">
           <Input label={typeOfContent} placeholder={typeOfContent}/>
-          <PasswordInput label="パスワード"/>
-          <PasswordInput label="パスワード(確認用)"/>
+          <PasswordInput label="パスワード" control={control} setValue={setValue}/>
+          <PasswordInput label="パスワード(確認用)" control={control} setValue={setValue}/>
           <StyledButton variant="contained" color="primary">会員登録する</StyledButton>
         </StyledForm>
       </StyledPaper>

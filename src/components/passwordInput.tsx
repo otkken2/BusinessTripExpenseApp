@@ -4,6 +4,8 @@ import { IconButton, InputAdornment } from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import { useState } from "react";
 import {styled} from '@mui/material/styles';
+import { Control, Controller, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { AuthInputs } from "../pages/Login";
 
 const StyledFormControl = styled(FormControl)(()=>({
   marginTop: "20px",
@@ -16,7 +18,10 @@ const StyledInputLabel = styled("label")(()=>({
 }));
 
 interface PasswordInputProps{
-  label:string
+  label:string,
+  // register?:UseFormRegister<AuthInputs>
+  control?:Control<AuthInputs>,
+  setValue:UseFormSetValue<AuthInputs>
 }
 
 export const PasswordInput = (props:PasswordInputProps) => {
@@ -29,16 +34,26 @@ export const PasswordInput = (props:PasswordInputProps) => {
     <>
       <StyledFormControl>
         <StyledInputLabel>{props.label}</StyledInputLabel>
-        <OutlinedInput 
-          placeholder={props.label}
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton onClick={handleOnClickShowPassword}>
-                { showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
+        <Controller
+          control={props.control}
+          name="email"
+          render={()=>
+            (
+              <OutlinedInput 
+                placeholder={props.label}
+                type={showPassword ? "text" : "password"}
+                onChange={(event)=>{
+                  props.setValue("password",event.target.value);
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleOnClickShowPassword}>
+                      { showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+          )}
         />
       </StyledFormControl>
     </>

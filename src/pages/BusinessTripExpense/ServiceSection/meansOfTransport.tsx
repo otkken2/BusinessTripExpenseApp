@@ -22,6 +22,8 @@ export const MeansOfTransport = (props: MeansOfTransportProps) => {
     return meansOfTransport;
   }
   const meansOfTransport = useQuery('meansOfTransport',fetchMeansOfTransport);
+  // console.log("meansOfTransport")
+  // console.log(meansOfTransport)
 
   return ( 
     <>
