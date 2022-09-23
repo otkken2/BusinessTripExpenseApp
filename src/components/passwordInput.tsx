@@ -36,7 +36,7 @@ export const PasswordInput = (props:PasswordInputProps) => {
         <StyledInputLabel>{props.label}</StyledInputLabel>
         <Controller
           control={props.control}
-          name="email"
+          name="password"
           render={()=>
             (
               <OutlinedInput 

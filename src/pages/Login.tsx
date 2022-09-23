@@ -27,28 +27,22 @@ export const Login = () => {
   const typeOfContent = "ユーザーID"
   const {register,handleSubmit,watch,control,setValue} = useForm<AuthInputs>();
 
-  // const onSubmit:SubmitHandler<AuthInputs> = async (data) => {
-  //   console.log("onSubmit!",data);
+  const onSubmit:SubmitHandler<AuthInputs> = async (data) => {
+    console.log("onSubmit!",data);
 
-  //   await axios.get('http://0.0.0.0:8000/sanctum/csrf-cookie').then(response => {
-  //     axios.post("http://0.0.0.0:8000/api/login",{
-  //       login: data,
-  //     }).then(response => {
-  //       console.log(response);
-  //     })
-  //   })
-  // }
+    const response = await axios.post("http://0.0.0.0:8000/api/login",
+      {
+        email:    data.email,
+        password: data.password
+      }
+    );
+    console.log(response.data?.email);
+    console.log(response.data?.name);
+  }
 
   useEffect(()=>{
-    axios.get('http://0.0.0.0:8000/sanctum/csrf-cookie').then(response => {
-      // ログイン…
-      // axios.post('http://0.0.0.0:8000/api/login',{
-      //   email:'admin@example.com',
-      //   password: '123456789'
-      // }).then(response => {
-      //   console.log(response);
-      // })
-    })
+    axios.get('http://0.0.0.0:8000/sanctum/csrf-cookie');
+
   },[]);
 
   return (
@@ -56,7 +50,7 @@ export const Login = () => {
       <h2>{pageTitles.LOGIN}</h2>
       <StyledPaper elevation={2} >
         <StyledForm 
-          // onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           {/* <Input label={typeOfContent} placeholder={typeOfContent} control={control} setValue={setValue}/> */}
           <InputLabel sx={{marginTop:"20px"}} htmlFor="">ユーザーID</InputLabel><br />
@@ -72,7 +66,13 @@ export const Login = () => {
             )}
           />
           <PasswordInput label="パスワード" control={control} setValue={setValue}/>
-          <StyledButton type="submit" color="primary" variant="contained">ログインする</StyledButton>
+          <StyledButton 
+            type="submit" 
+            color="primary" 
+            variant="contained"
+          >
+            ログインする
+          </StyledButton>
         </StyledForm>
       </StyledPaper>
     </StyledContainer>
